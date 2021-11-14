@@ -1,8 +1,14 @@
 const socket = io("/")
 
+function $(element) {
+  return document.querySelector(element)
+}
+
 socket.on('connect', () => {
-  connected = true
   console.log('> Connected to server')
 })
 
+socket.on('scene', (game) => {
+  $('#gaming').src = game
+})
 

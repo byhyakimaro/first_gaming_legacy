@@ -14,25 +14,23 @@ const gaming = createCanvas(width, height)
 const ctx = gaming.getContext('2d')
 
 class Game {
-  construct() {
-    this.scene()
-    return gaming.toBuffer()
+  constructor () {
+    this.Scene()
   }
 
-  async scene() {
-    ctx.fillStyle = '#fff'
+  async Scene () {
+    ctx.fillStyle = '#993399'
     ctx.fillRect(0, 0, width, height)
-    
-    const playerSprite = await loadImage('images/player_sprite.gif')
-    ctx.drawImage(playerSprite, 0, 0, width, height)
+
+    const player = await loadImage('public/images/player.png')
+    ctx.drawImage(player, width/2, height/2, player.width, player.height)
   }
 }
-const game = new Game()
 
 io.on('connection',(socket)=>{
   console.log(socket.id)
-
-  socket.emit('scene', game)
+  new Game()
+  socket.emit('scene', gaming.toDataURL())
 })
 
 app.use(express.static(__dirname + '/public'))
