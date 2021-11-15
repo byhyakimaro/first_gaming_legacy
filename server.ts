@@ -34,7 +34,7 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   socket.on('moveUp',()=>{
-    game.player(width/2, height/2-1)
+    game.player(width/2, height/2-100)
   })
   function updateGame() {
     setTimeout(()=>{
