@@ -12,3 +12,8 @@ socket.on('scene', (game) => {
   $('#gaming').src = game
 })
 
+document.addEventListener('keyup',({key}) => {
+  if(key === 'w') {
+    socket.emit('moveUp')
+  }
+})

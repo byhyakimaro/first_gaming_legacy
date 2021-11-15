@@ -16,21 +16,29 @@ const ctx = gaming.getContext('2d')
 class Game {
   constructor () {
     this.Scene()
+    this.player(width/2, height/2)
   }
 
-  async Scene () {
-    ctx.fillStyle = '#993399'
+  Scene () {
+    ctx.fillStyle = '#764abc'
     ctx.fillRect(0, 0, width, height)
+  }
 
+  async player(x: number, y: number) {
     const player = await loadImage('public/images/player.png')
-    ctx.drawImage(player, width/2, height/2, player.width, player.height)
+    ctx.drawImage(player,x, y, 64, 64)
   }
 }
 
 io.on('connection',(socket)=>{
   console.log(socket.id)
-  new Game()
-  socket.emit('scene', gaming.toDataURL())
+  const game = new Game()
+  socket.on('moveUp',()=>{
+    game.player(width/2, height/2)
+  })
+  setTimeout(()=>{
+    socket.emit('scene', gaming.toDataURL())
+  },1)
 })
 
 app.use(express.static(__dirname + '/public'))
