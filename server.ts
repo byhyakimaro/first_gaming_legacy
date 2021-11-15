@@ -34,11 +34,15 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   socket.on('moveUp',()=>{
-    game.player(width/2, height/2)
+    game.player(width/2, height/2-1)
   })
-  setTimeout(()=>{
-    socket.emit('scene', gaming.toDataURL())
-  },1)
+  function updateGame() {
+    setTimeout(()=>{
+      socket.emit('scene', gaming.toDataURL())
+      updateGame()
+    },1)
+  }
+  updateGame()
 })
 
 app.use(express.static(__dirname + '/public'))
