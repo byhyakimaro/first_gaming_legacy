@@ -42,6 +42,7 @@ class Game {
   UpdateScene () {
     ctx.clearRect(0, 0, width, height)
     this.Scene()
+    this.collision(width/1.2, height-100)
   }
 
   gravity (gravity: number) {
@@ -50,20 +51,20 @@ class Game {
     }
     
     const floor = gaming.height - this.playerHeight
-    this.collision(width,floor)
+    if (this.playerY > floor) {
+      this.playerY = floor
+    }
     this.player(this.playerX,this.playerY)
   }
 
   collision (ObjX:number, ObjY:number) {
     const playerRight = this.playerX+this.playerHeight
     const playerLeft = this.playerX
-    const heightObj = height-100-this.playerHeight
-    const objLeft = width/1.2
-    const objRight = width/1.2+10
-    if (this.playerY > ObjY) {
-      this.playerY = ObjY
-    } else if((playerRight > objLeft) && (playerLeft < objRight) && (this.playerY > heightObj)) {
-      this.playerX = objRight
+    const heightObj = ObjY-this.playerHeight
+    const objLeft =ObjX
+    const objRight = ObjX+10
+    if((playerRight > objLeft) && (playerLeft < objRight) && (this.playerY > heightObj)) {
+      this.playerX = objLeft-this.playerHeight
     }
   }
 
