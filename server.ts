@@ -15,8 +15,8 @@ const ctx = gaming.getContext('2d')
 
 class Game {
   
-  pixelSteps = 2
-  playerHeight = 64
+  pixelSteps = 4
+  playerHeight = 48
   playerY = height/2
   playerX = width/2
   fly = false
@@ -45,9 +45,9 @@ class Game {
   }
 
   hitBase () {
-    const base = gaming.height - this.playerHeight
-    if (this.playerY >= base) {
-      this.playerY = base
+    const floor = gaming.height - this.playerHeight
+    if (this.playerY >= floor) {
+      this.playerY = floor
     }
   }
 
