@@ -27,6 +27,10 @@ class Game {
     this.player(this.playerX, this.playerY)
   }
 
+  UpdateGame() {
+    this.gravity(10)
+  }
+
   Scene () {
     ctx.fillStyle = '#764abc'
     ctx.fillRect(0, 0, width, height)
@@ -35,7 +39,7 @@ class Game {
     ctx.fillRect(width/1.2, height-100, 10, 100)
   }
 
-  Update () {
+  UpdateScene () {
     ctx.clearRect(0, 0, width, height)
     this.Scene()
   }
@@ -43,23 +47,31 @@ class Game {
   gravity (gravity: number) {
     if(!this.fly) {
       this.playerY = this.playerY + gravity
-      this.collision()
-      this.player(this.playerX,this.playerY)
     }
+    
+    this.collision()
+    this.player(this.playerX,this.playerY)
   }
 
   collision () {
     const floor = gaming.height - this.playerHeight
-    if (this.playerY >= floor) {
+    const playerRight = this.playerX+this.playerHeight
+    const playerLeft = this.playerX
+    const heightObj = height-100-this.playerHeight
+    const objLeft = width/1.2
+    const objRight = width/1.2+10
+    if (this.playerY > floor) {
       this.playerY = floor
+    } else if((playerRight > objLeft) && (playerLeft < objRight) && (this.playerY > heightObj)) {
+      this.playerX = objLeft-this.playerHeight
     }
   }
 
   async player(x: number, y: number) {
     const player = await loadImage(this.playerFrame)
-    this.Update()
+    this.UpdateScene()
     ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
-    console.log(x,y)
+    console.log(`x: ${x} y: ${y}`)
   }
 }
 
@@ -96,7 +108,7 @@ io.on('connection',(socket)=>{
   function updateGame() {
     setTimeout(()=>{
       socket.emit('scene', gaming.toDataURL())
-      game.gravity(10)
+      game.UpdateGame()
       updateGame()
     },1)
   }
