@@ -17,7 +17,7 @@ class Game {
   
   pixelSteps = 4
   playerHeight = 48
-  playerFrame = 'public/images/player.png'
+  playerFrame = 'public/images/player_right.png'
   isColliding = false
   playerY = height/2
   playerX = width/2
@@ -86,10 +86,10 @@ io.on('connection',(socket)=>{
     console.log(game.fly)
     if(game.fly) {
       game.fly = false
-      game.playerFrame = 'public/images/player.png'
+      game.playerFrame = 'public/images/player_right.png'
     } else {
       game.fly = true
-      game.playerFrame = 'public/images/player_fly.png'
+      game.playerFrame = 'public/images/player_right_fly.png'
     }
     game.player(game.playerX, game.playerY)
   })
@@ -98,6 +98,7 @@ io.on('connection',(socket)=>{
     game.player(game.playerX, game.playerY)
   })
   socket.on('moveLeft',()=>{
+    game.fly ? game.playerFrame = 'public/images/player_left_fly.png' : game.playerFrame = 'public/images/player_left.png'
     if(game.isColliding) {
       game.playerX = game.playerX + game.pixelSteps
     } else {
@@ -109,6 +110,7 @@ io.on('connection',(socket)=>{
     game.player(game.playerX, game.playerY)
   })
   socket.on('moveRight',()=>{
+    game.fly ? game.playerFrame = 'public/images/player_right_fly.png' : game.playerFrame = 'public/images/player_right.png'
     if(game.isColliding) {
       game.playerX = game.playerX - game.pixelSteps
     } else {
