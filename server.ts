@@ -16,6 +16,7 @@ const ctx = gaming.getContext('2d')
 class Game {
   
   pixelSteps = 2
+  playerHeight = 64
   playerY = height/2
   playerX = width/2
   fly = false
@@ -44,7 +45,7 @@ class Game {
   }
 
   hitBase () {
-    const base = gaming.height - 100
+    const base = gaming.height - this.playerHeight
     if (this.playerY >= base) {
       this.playerY = base
     }
@@ -53,7 +54,7 @@ class Game {
   async player(x: number, y: number) {
     const player = await loadImage('public/images/player.png')
     this.Update()
-    ctx.drawImage(player,x, y, 64, 64)
+    ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
     console.log(x,y)
   }
 }
