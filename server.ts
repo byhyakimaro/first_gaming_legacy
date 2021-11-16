@@ -17,13 +17,14 @@ class Game {
   
   pixelSteps = 4
   playerHeight = 48
+  playerFrame = 'public/images/player.png'
   playerY = height/2
   playerX = width/2
   fly = false
 
   constructor () {
     this.Scene()
-    this.player(width/2, height/2)
+    this.player(this.playerX, this.playerY)
   }
 
   Scene () {
@@ -39,12 +40,12 @@ class Game {
   gravity (gravity: number) {
     if(!this.fly) {
       this.playerY = this.playerY + gravity
-      this.hitBase()
+      this.collision()
       this.player(this.playerX,this.playerY)
     }
   }
 
-  hitBase () {
+  collision () {
     const floor = gaming.height - this.playerHeight
     if (this.playerY >= floor) {
       this.playerY = floor
@@ -52,7 +53,7 @@ class Game {
   }
 
   async player(x: number, y: number) {
-    const player = await loadImage('public/images/player.png')
+    const player = await loadImage(this.playerFrame)
     this.Update()
     ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
     console.log(x,y)
@@ -66,9 +67,12 @@ io.on('connection',(socket)=>{
     console.log(game.fly)
     if(game.fly) {
       game.fly = false
+      game.playerFrame = 'public/images/player.png'
     } else {
       game.fly = true
+      game.playerFrame = 'public/images/player_fly.png'
     }
+    game.player(game.playerX, game.playerY)
   })
   socket.on('moveUp',()=>{
     game.playerY = game.playerY - game.pixelSteps
