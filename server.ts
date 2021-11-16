@@ -97,6 +97,10 @@ io.on('connection',(socket)=>{
     game.playerY = game.playerY - game.pixelSteps
     game.player(game.playerX, game.playerY)
   })
+  socket.on('moveDown',()=>{
+    game.playerY = game.playerY + game.pixelSteps
+    game.player(game.playerX, game.playerY)
+  })
   socket.on('moveLeft',()=>{
     game.fly ? game.playerFrame = 'public/images/player_left_fly.png' : game.playerFrame = 'public/images/player_left.png'
     if(game.isColliding) {
@@ -104,10 +108,6 @@ io.on('connection',(socket)=>{
     } else {
       game.playerX = game.playerX - game.pixelSteps
     }
-  })
-  socket.on('moveDown',()=>{
-    game.playerY = game.playerY + game.pixelSteps
-    game.player(game.playerX, game.playerY)
   })
   socket.on('moveRight',()=>{
     game.fly ? game.playerFrame = 'public/images/player_right_fly.png' : game.playerFrame = 'public/images/player_right.png'
