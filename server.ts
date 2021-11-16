@@ -49,21 +49,21 @@ class Game {
       this.playerY = this.playerY + gravity
     }
     
-    this.collision()
+    const floor = gaming.height - this.playerHeight
+    this.collision(width,floor)
     this.player(this.playerX,this.playerY)
   }
 
-  collision () {
-    const floor = gaming.height - this.playerHeight
+  collision (ObjX:number, ObjY:number) {
     const playerRight = this.playerX+this.playerHeight
     const playerLeft = this.playerX
     const heightObj = height-100-this.playerHeight
     const objLeft = width/1.2
     const objRight = width/1.2+10
-    if (this.playerY > floor) {
-      this.playerY = floor
+    if (this.playerY > ObjY) {
+      this.playerY = ObjY
     } else if((playerRight > objLeft) && (playerLeft < objRight) && (this.playerY > heightObj)) {
-      this.playerX = objLeft-this.playerHeight
+      this.playerX = objRight
     }
   }
 
