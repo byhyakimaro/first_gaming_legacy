@@ -24,7 +24,13 @@ class Game {
     ctx.fillRect(0, 0, width, height)
   }
 
+  Update () {
+    ctx.clearRect(0, 0, width, height)
+    this.Scene()
+  }
+
   async player(x: number, y: number) {
+    this.Update()
     const player = await loadImage('public/images/player.png')
     ctx.drawImage(player,x, y, 64, 64)
   }
