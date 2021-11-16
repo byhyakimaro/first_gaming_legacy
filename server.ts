@@ -18,6 +18,7 @@ class Game {
   pixelSteps = 2
   playerY = height/2
   playerX = width/2
+  fly = false
 
   constructor () {
     this.Scene()
@@ -35,9 +36,11 @@ class Game {
   }
 
   gravity (gravity: number) {
-    this.playerY = this.playerY + gravity
-    this.hitBase()
-    this.player(this.playerX,this.playerY)
+    if(!this.fly) {
+      this.playerY = this.playerY + gravity
+      this.hitBase()
+      this.player(this.playerX,this.playerY)
+    }
   }
 
   hitBase () {
@@ -58,6 +61,14 @@ class Game {
 io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
+  socket.on('setFly',()=>{
+    console.log(game.fly)
+    if(game.fly) {
+      game.fly = false
+    } else {
+      game.fly = true
+    }
+  })
   socket.on('moveUp',()=>{
     game.playerY = game.playerY - game.pixelSteps
     game.player(game.playerX, game.playerY)
@@ -77,7 +88,7 @@ io.on('connection',(socket)=>{
   function updateGame() {
     setTimeout(()=>{
       socket.emit('scene', gaming.toDataURL())
-      game.gravity(1)
+      game.gravity(10)
       updateGame()
     },1)
   }

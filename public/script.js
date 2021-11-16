@@ -21,5 +21,7 @@ document.addEventListener('keypress',({key}) => {
     socket.emit('moveDown')
   }else if(key === 'd') {
     socket.emit('moveRight')
+  }else if(key === ' ') {
+    socket.emit('setFly')
   }
 })
