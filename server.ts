@@ -37,14 +37,26 @@ class Game {
 }
 
 let playerY = height/2
+let playerX = width/2
 
 io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   socket.on('moveUp',()=>{
     playerY = playerY - 1
-    game.player(width/2, playerY)
-    console.log(playerY)
+    game.player(playerX, playerY)
+  })
+  socket.on('moveLeft',()=>{
+    playerX = playerX - 1
+    game.player(playerX, playerY)
+  })
+  socket.on('moveDown',()=>{
+    playerY = playerY + 1
+    game.player(playerX, playerY)
+  })
+  socket.on('moveRight',()=>{
+    playerX = playerX + 1
+    game.player(playerX, playerY)
   })
   function updateGame() {
     setTimeout(()=>{
