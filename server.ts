@@ -98,15 +98,22 @@ io.on('connection',(socket)=>{
     game.player(game.playerX, game.playerY)
   })
   socket.on('moveLeft',()=>{
-    game.playerX = game.playerX - game.pixelSteps
-    game.player(game.playerX, game.playerY)
+    if(game.isColliding) {
+      game.playerX = game.playerX + game.pixelSteps
+    } else {
+      game.playerX = game.playerX - game.pixelSteps
+    }
   })
   socket.on('moveDown',()=>{
     game.playerY = game.playerY + game.pixelSteps
     game.player(game.playerX, game.playerY)
   })
   socket.on('moveRight',()=>{
-    game.playerX = game.playerX + game.pixelSteps
+    if(game.isColliding) {
+      game.playerX = game.playerX - game.pixelSteps
+    } else {
+      game.playerX = game.playerX + game.pixelSteps
+    }
     game.player(game.playerX, game.playerY)
   })
   function updateGame() {
