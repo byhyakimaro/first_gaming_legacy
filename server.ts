@@ -14,6 +14,11 @@ const gaming = createCanvas(width, height)
 const ctx = gaming.getContext('2d')
 
 class Game {
+  
+  pixelSteps = 2
+  playerY = height/2
+  playerX = width/2
+
   constructor () {
     this.Scene()
     this.player(width/2, height/2)
@@ -29,39 +34,50 @@ class Game {
     this.Scene()
   }
 
+  gravity (gravity: number) {
+    this.playerY = this.playerY + gravity
+    this.hitBase()
+    this.player(this.playerX,this.playerY)
+  }
+
+  hitBase () {
+    const base = gaming.height - 100
+    if (this.playerY >= base) {
+      this.playerY = base
+    }
+  }
+
   async player(x: number, y: number) {
     const player = await loadImage('public/images/player.png')
     this.Update()
     ctx.drawImage(player,x, y, 64, 64)
+    console.log(x,y)
   }
 }
-
-const pixelSteps = 2
-let playerY = height/2
-let playerX = width/2
 
 io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   socket.on('moveUp',()=>{
-    playerY = playerY - pixelSteps
-    game.player(playerX, playerY)
+    game.playerY = game.playerY - game.pixelSteps
+    game.player(game.playerX, game.playerY)
   })
   socket.on('moveLeft',()=>{
-    playerX = playerX - pixelSteps
-    game.player(playerX, playerY)
+    game.playerX = game.playerX - game.pixelSteps
+    game.player(game.playerX, game.playerY)
   })
   socket.on('moveDown',()=>{
-    playerY = playerY + pixelSteps
-    game.player(playerX, playerY)
+    game.playerY = game.playerY + game.pixelSteps
+    game.player(game.playerX, game.playerY)
   })
   socket.on('moveRight',()=>{
-    playerX = playerX + pixelSteps
-    game.player(playerX, playerY)
+    game.playerX = game.playerX + game.pixelSteps
+    game.player(game.playerX, game.playerY)
   })
   function updateGame() {
     setTimeout(()=>{
       socket.emit('scene', gaming.toDataURL())
+      game.gravity(1)
       updateGame()
     },1)
   }
