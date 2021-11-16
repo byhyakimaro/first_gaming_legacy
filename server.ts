@@ -30,6 +30,9 @@ class Game {
   Scene () {
     ctx.fillStyle = '#764abc'
     ctx.fillRect(0, 0, width, height)
+
+    ctx.fillStyle = '#000000'
+    ctx.fillRect(width/1.2, height-100, 10, 100)
   }
 
   Update () {
