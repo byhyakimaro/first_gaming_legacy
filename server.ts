@@ -18,6 +18,7 @@ class Game {
   pixelSteps = 4
   playerHeight = 48
   playerFrame = 'public/images/player.png'
+  isColliding = false
   playerY = height/2
   playerX = width/2
   fly = false
@@ -36,13 +37,13 @@ class Game {
     ctx.fillRect(0, 0, width, height)
 
     ctx.fillStyle = '#000000'
-    ctx.fillRect(width/1.2, height-100, 10, 100)
+    ctx.fillRect(width/1.8, height-100, 10, 100)
   }
 
   UpdateScene () {
     ctx.clearRect(0, 0, width, height)
     this.Scene()
-    this.collision(width/1.2, height-100)
+    this.collision(width/1.8, height-100)
   }
 
   gravity (gravity: number) {
@@ -63,8 +64,10 @@ class Game {
     const heightObj = ObjY-this.playerHeight
     const objLeft =ObjX
     const objRight = ObjX+10
-    if((playerRight > objLeft) && (playerLeft < objRight) && (this.playerY > heightObj)) {
-      this.playerX = objLeft-this.playerHeight
+    if((playerRight >= objLeft) && (playerLeft <= objRight) && (this.playerY >= heightObj)) {
+      this.isColliding = true
+    } else {
+      this.isColliding = false
     }
   }
 
@@ -72,7 +75,7 @@ class Game {
     const player = await loadImage(this.playerFrame)
     this.UpdateScene()
     ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
-    console.log(`x: ${x} y: ${y}`)
+    console.log(`x: ${x} y: ${y}, isColliding: ${this.isColliding}`)
   }
 }
 
