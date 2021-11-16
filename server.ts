@@ -7,8 +7,8 @@ const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
 
-const width = 900
-const height = 600
+const width = 1200
+const height = 700
 
 const gaming = createCanvas(width, height)
 const ctx = gaming.getContext('2d')
@@ -30,12 +30,13 @@ class Game {
   }
 
   async player(x: number, y: number) {
-    this.Update()
     const player = await loadImage('public/images/player.png')
+    this.Update()
     ctx.drawImage(player,x, y, 64, 64)
   }
 }
 
+const pixelSteps = 2
 let playerY = height/2
 let playerX = width/2
 
@@ -43,19 +44,19 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   socket.on('moveUp',()=>{
-    playerY = playerY - 1
+    playerY = playerY - pixelSteps
     game.player(playerX, playerY)
   })
   socket.on('moveLeft',()=>{
-    playerX = playerX - 1
+    playerX = playerX - pixelSteps
     game.player(playerX, playerY)
   })
   socket.on('moveDown',()=>{
-    playerY = playerY + 1
+    playerY = playerY + pixelSteps
     game.player(playerX, playerY)
   })
   socket.on('moveRight',()=>{
-    playerX = playerX + 1
+    playerX = playerX + pixelSteps
     game.player(playerX, playerY)
   })
   function updateGame() {
