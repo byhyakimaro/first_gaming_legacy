@@ -16,7 +16,7 @@ export class Game {
   public playerHeight: number 
   public sockets = []
   public playerFrameI: number = 0
-  public actionPlayer: string = 'Walking'
+  public actionPlayer: string = 'Idle'
   public isColliding: boolean = false
   public playerY: number = height/2
   public playerX: number = width/2
@@ -42,7 +42,7 @@ export class Game {
     const basePath =`public/images/SpritesPlayer/Reaper_Man_${skinPlayer}/${this.actionPlayer}/`
     const sprites = fs.readdirSync(basePath)
     if(this.playerFrameI >= sprites.length) this.playerFrameI = 0
-    const frame = `${basePath}0_Reaper_Man_${this.actionPlayer}_${this.playerFrameI}.png`
+    const frame = `${basePath}0_Reaper_Man_Walking_${this.playerFrameI}.png`
     const player = await loadImage(frame)
     this.playerWidth = player.width/8
     this.playerHeight = player.height/8
