@@ -31,5 +31,4 @@ document.addEventListener('keydown',({key}) => {
 
 document.addEventListener('click',(event) => {
   socket.emit('attack')
-  console.log(event.ctrlKey)
 })
