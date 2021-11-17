@@ -33,17 +33,15 @@ class Game {
   }
 
   UpdateGame() {
-    console.log(`x: ${this.playerX}, y: ${this.playerY}, isColliding: ${this.isColliding}, isFlying: ${this.fly} , fps: ${this.fps}`)
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
     this.oldTime = nowTime
-    setImmediate(()=>{
-      this.sockets.forEach(socket => {
-        socket.emit('scene', gaming.toDataURL())
-      })
-      this.UpdateGame()
-      this.gravity(10)
+    this.sockets.forEach(socket => {
+      socket.emit('scene', gaming.toDataURL())
     })
+    this.gravity(10)
+    console.log(`x: ${this.playerX}, y: ${this.playerY}, isColliding: ${this.isColliding}, isFlying: ${this.fly} , fps: ${this.fps}`)
+    setImmediate(()=>this.UpdateGame())
   }
 
   Scene () {
