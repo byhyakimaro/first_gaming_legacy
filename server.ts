@@ -36,9 +36,11 @@ io.on('connection',(socket)=>{
   })
   socket.on('moveLeft',()=>{
     game.playerX = game.playerX - game.pixelSteps
+    game.reverseSkins = true
   })
   socket.on('moveRight',()=>{
     game.playerX = game.playerX + game.pixelSteps
+    game.reverseSkins = false
   })
 })
 

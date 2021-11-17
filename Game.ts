@@ -17,6 +17,7 @@ export class Game {
   public sockets = []
   public playerFrameI: number = 0
   public playerSkin: number = 1
+  public reverseSkins: boolean = false
   public actionPlayer: string = 'Walking'
   public isColliding: boolean = false
   public playerY: number = height/2
@@ -47,6 +48,12 @@ export class Game {
     this.playerWidth = player.width/8
     this.playerHeight = player.height/8
     this.UpdateScene()
+    if(this.reverseSkins) {
+      ctx.scale(-1, 1)
+      x = -x-100
+    } else {
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+    }
     ctx.drawImage(player,x, y, this.playerWidth, this.playerHeight)
   }
 
