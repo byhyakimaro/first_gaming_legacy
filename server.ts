@@ -47,7 +47,7 @@ class Game {
   }
 
   gravity (gravity: number) {
-    if(!this.fly) {
+    if(!this.fly && !this.isColliding) {
       this.playerY = this.playerY + gravity
     }
     
@@ -94,12 +94,18 @@ io.on('connection',(socket)=>{
     game.player(game.playerX, game.playerY)
   })
   socket.on('moveUp',()=>{
-    game.playerY = game.playerY - game.pixelSteps
-    game.player(game.playerX, game.playerY)
+    if(game.isColliding) {
+      game.playerY = game.playerY + game.pixelSteps
+    } else {
+      game.playerY = game.playerY - game.pixelSteps
+    }
   })
   socket.on('moveDown',()=>{
-    game.playerY = game.playerY + game.pixelSteps
-    game.player(game.playerX, game.playerY)
+    if(game.isColliding) {
+      game.playerY = game.playerY - game.pixelSteps
+    } else {
+      game.playerY = game.playerY + game.pixelSteps
+    }
   })
   socket.on('moveLeft',()=>{
     game.fly ? game.playerFrame = 'public/images/player_left_fly.png' : game.playerFrame = 'public/images/player_left.png'
