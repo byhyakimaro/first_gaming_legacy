@@ -14,7 +14,7 @@ socket.on('scene', (game) => {
   $('#gaming').src = game
 })
 
-document.addEventListener('keypress',({key}) => {
+document.addEventListener('keydown',({key}) => {
   if(key === 'w') {
     socket.emit('moveUp')
   } else if(key === 's') {
@@ -26,8 +26,10 @@ document.addEventListener('keypress',({key}) => {
   }else if(key === ' ') {
     socket.emit('setFly')
   }
+  console.log(key)
 })
 
-document.addEventListener('click',() => {
+document.addEventListener('click',(event) => {
   socket.emit('attack')
+  console.log(event.ctrlKey)
 })
