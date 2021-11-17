@@ -26,6 +26,28 @@ export class Game {
     this.UpdateGame()
   }
 
+  Scene () {
+    ctx.fillStyle = '#764abc'
+    ctx.fillRect(0, 0, width, height)
+
+    ctx.fillStyle = '#000000'
+    ctx.fillRect(width/1.8, height-200, 100, 10)
+  }
+
+  async player(x: number, y: number) {
+    const player = await loadImage(this.playerFrame)
+    this.playerWidth = player.width/4
+    this.playerHeight = player.height/4
+    this.UpdateScene()
+    ctx.drawImage(player,x, y, this.playerWidth, this.playerHeight)
+  }
+
+  UpdateScene () {
+    ctx.clearRect(0, 0, width, height)
+    this.Scene()
+    this.collision(width/1.8, height-200, 100, 10)
+  }
+
   UpdateGame() {
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
@@ -36,20 +58,6 @@ export class Game {
     this.gravity(10)
     console.log(`x: ${this.playerX}, y: ${this.playerY}, isColliding: ${this.isColliding}, isFlying: ${this.fly} , fps: ${this.fps}`)
     setImmediate(()=>this.UpdateGame())
-  }
-
-  Scene () {
-    ctx.fillStyle = '#764abc'
-    ctx.fillRect(0, 0, width, height)
-
-    ctx.fillStyle = '#000000'
-    ctx.fillRect(width/1.8, height-200, 100, 10)
-  }
-
-  UpdateScene () {
-    ctx.clearRect(0, 0, width, height)
-    this.Scene()
-    this.collision(width/1.8, height-200, 100, 10)
   }
 
   gravity (gravity: number) {
@@ -78,13 +86,5 @@ export class Game {
     } else {
       this.isColliding = true
     }
-  }
-
-  async player(x: number, y: number) {
-    const player = await loadImage(this.playerFrame)
-    this.playerWidth = player.width/4
-    this.playerHeight = player.height/4
-    this.UpdateScene()
-    ctx.drawImage(player,x, y, this.playerWidth, this.playerHeight)
   }
 }
