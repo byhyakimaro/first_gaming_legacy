@@ -18,8 +18,8 @@ class Game {
   pixelSteps = 4
   fps = 0
   oldTime = Date.now()
-  playerHeight = 48
-  playerFrame = 'public/images/player_right.png'
+  playerHeight = 128
+  playerFrame = 'public/images/player_sprites/PNG/Wraith_01/PNG Sequences/Walking/Wraith_01_Moving Forward_000.png'
   sockets = []
   isColliding = false
   playerY = height/2
@@ -33,6 +33,7 @@ class Game {
   }
 
   UpdateGame() {
+    console.log(`x: ${this.playerX}, y: ${this.playerY}, isColliding: ${this.isColliding}, isFlying: ${this.fly} , fps: ${this.fps}`)
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
     this.oldTime = nowTime
@@ -91,7 +92,6 @@ class Game {
     const player = await loadImage(this.playerFrame)
     this.UpdateScene()
     ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
-    console.log(`x: ${x} y: ${y}, isColliding: ${this.isColliding}, fps: ${this.fps}`)
   }
 }
 
@@ -102,10 +102,8 @@ io.on('connection',(socket)=>{
   socket.on('setFly',()=>{
     if(game.fly) {
       game.fly = false
-      game.playerFrame = 'public/images/player_right.png'
     } else {
       game.fly = true
-      game.playerFrame = 'public/images/player_right_fly.png'
     }
   })
   socket.on('moveUp',()=>{
@@ -115,11 +113,9 @@ io.on('connection',(socket)=>{
     game.playerY = game.playerY + game.pixelSteps
   })
   socket.on('moveLeft',()=>{
-    game.fly ? game.playerFrame = 'public/images/player_left_fly.png' : game.playerFrame = 'public/images/player_left.png'
     game.playerX = game.playerX - game.pixelSteps
   })
   socket.on('moveRight',()=>{
-    game.fly ? game.playerFrame = 'public/images/player_right_fly.png' : game.playerFrame = 'public/images/player_right.png'
     game.playerX = game.playerX + game.pixelSteps
   })
 })
