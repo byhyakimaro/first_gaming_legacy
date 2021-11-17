@@ -15,16 +15,17 @@ const ctx = gaming.getContext('2d')
 
 class Game {
   
-  pixelSteps = 4
-  fps = 0
-  oldTime = Date.now()
-  playerHeight = 128
-  playerFrame = 'public/images/player_sprites/PNG/Wraith_01/PNG Sequences/Walking/Wraith_01_Moving Forward_000.png'
+  pixelSteps: number = 4
+  fps: number = 0
+  oldTime: number = Date.now()
+  playerWidth: number
+  playerHeight: number 
+  playerFrame: string = 'public/images/player_sprites/PNG/Wraith_01/PNG Sequences/Walking/Wraith_01_Moving Forward_000.png'
   sockets = []
-  isColliding = false
-  playerY = height/2
-  playerX = width/2
-  fly = false
+  isColliding: boolean = false
+  playerY: number = height/2
+  playerX: number = width/2
+  fly: boolean = false
 
   constructor () {
     this.Scene()
@@ -88,8 +89,10 @@ class Game {
 
   async player(x: number, y: number) {
     const player = await loadImage(this.playerFrame)
+    this.playerWidth = player.width/4
+    this.playerHeight = player.height/4
     this.UpdateScene()
-    ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
+    ctx.drawImage(player,x, y, this.playerWidth, this.playerHeight)
   }
 }
 

@@ -8,6 +8,8 @@ socket.on('connect', () => {
   console.log('> Connected to server')
 })
 
+socket.emit('screenSize',{ width: window.innerWidth, height: window.innerHeight })
+
 socket.on('scene', (game) => {
   $('#gaming').src = game
 })
