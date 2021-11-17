@@ -37,13 +37,13 @@ class Game {
     ctx.fillRect(0, 0, width, height)
 
     ctx.fillStyle = '#000000'
-    ctx.fillRect(width/1.8, height-200, 10, 100)
+    ctx.fillRect(width/1.8, height-200, 100, 10)
   }
 
   UpdateScene () {
     ctx.clearRect(0, 0, width, height)
     this.Scene()
-    this.collision(width/1.8, height-200, 10, 100)
+    this.collision(width/1.8, height-200, 100, 10)
   }
 
   gravity (gravity: number) {
@@ -59,15 +59,18 @@ class Game {
   }
 
   collision (ObjX:number, ObjY:number, ObjWidth:number, ObjHeight:number) {
-    const playerRight = this.playerX+this.playerHeight
     const playerLeft = this.playerX
-    const heightObj = ObjY-this.playerHeight
-    const objRight = ObjX+ObjWidth
-    if((playerRight >= ObjX && playerLeft <= objRight) && 
-    (this.playerY >= heightObj && this.playerY <= height-ObjHeight)) {
-      this.isColliding = true
-    } else {
+    const playerRight = this.playerX + this.playerHeight
+    const playerTop = this.playerY
+    const playerBottom = this.playerY + this.playerHeight
+    const objLeft = ObjX
+    const objRight = ObjX + ObjWidth
+    const objTop = ObjY
+    const objDown = ObjY + ObjHeight
+    if((playerBottom < objTop) || (playerTop > objDown) || (playerRight < objLeft) || (playerLeft > objRight)) {
       this.isColliding = false
+    } else {
+      this.isColliding = true
     }
   }
 
