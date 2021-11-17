@@ -95,7 +95,6 @@ io.on('connection',(socket)=>{
     game.playerY = game.playerY - game.pixelSteps
   })
   socket.on('moveDown',()=>{
-    if(game.isColliding) {
     game.playerY = game.playerY + game.pixelSteps
   })
   socket.on('moveLeft',()=>{
