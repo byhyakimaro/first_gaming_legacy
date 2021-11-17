@@ -74,7 +74,7 @@ export class Game {
 
   collision (ObjX:number, ObjY:number, ObjWidth:number, ObjHeight:number) {
     const playerLeft = this.playerX
-    const playerRight = this.playerX + this.playerHeight
+    const playerRight = this.playerX + this.playerWidth
     const playerTop = this.playerY
     const playerBottom = this.playerY + this.playerHeight
     const objLeft = ObjX
