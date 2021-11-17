@@ -12,7 +12,8 @@ io.on('connection',(socket)=>{
   const game = new Game()
   game.sockets.unshift(socket)
   socket.on('attack',()=>{
-    // attack players
+    game.actionPlayer = 'Slashing'
+    setTimeout(()=>game.actionPlayer = 'Walking',500) 
   })
   socket.on('setFly',()=>{
     if(game.fly) {
