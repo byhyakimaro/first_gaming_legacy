@@ -15,6 +15,10 @@ io.on('connection',(socket)=>{
     game.actionPlayer = 'Slashing'
     setTimeout(()=>game.actionPlayer = 'Walking',500) 
   })
+  socket.on('setSlide',()=>{
+    game.actionPlayer = 'Sliding'
+    setTimeout(()=>game.actionPlayer = 'Walking',500)
+  })
   socket.on('setFly',()=>{
     if(game.fly) {
       game.fly = false

@@ -25,6 +25,8 @@ document.addEventListener('keydown',({key}) => {
     socket.emit('moveRight')
   }else if(key === ' ') {
     socket.emit('setFly')
+  }else if(key === 'Control') {
+    socket.emit('setSlide')
   }
   console.log(key)
 })

@@ -17,7 +17,7 @@ export class Game {
   public sockets = []
   public playerFrameI: number = 0
   public playerSkin: number = 1
-  public actionPlayer: string = 'Walking'
+  public actionPlayer: string = 'Sliding'
   public isColliding: boolean = false
   public playerY: number = height/2
   public playerX: number = width/2
