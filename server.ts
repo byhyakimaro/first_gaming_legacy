@@ -83,7 +83,6 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   socket.on('setFly',()=>{
-    console.log(game.fly)
     if(game.fly) {
       game.fly = false
       game.playerFrame = 'public/images/player_right.png'
@@ -91,38 +90,21 @@ io.on('connection',(socket)=>{
       game.fly = true
       game.playerFrame = 'public/images/player_right_fly.png'
     }
-    game.player(game.playerX, game.playerY)
   })
   socket.on('moveUp',()=>{
-    if(game.isColliding) {
-      game.playerY = game.playerY + game.pixelSteps
-    } else {
-      game.playerY = game.playerY - game.pixelSteps
-    }
+    game.playerY = game.playerY - game.pixelSteps
   })
   socket.on('moveDown',()=>{
     if(game.isColliding) {
-      game.playerY = game.playerY - game.pixelSteps
-    } else {
-      game.playerY = game.playerY + game.pixelSteps
-    }
+    game.playerY = game.playerY + game.pixelSteps
   })
   socket.on('moveLeft',()=>{
     game.fly ? game.playerFrame = 'public/images/player_left_fly.png' : game.playerFrame = 'public/images/player_left.png'
-    if(game.isColliding) {
-      game.playerX = game.playerX + game.pixelSteps
-    } else {
-      game.playerX = game.playerX - game.pixelSteps
-    }
+    game.playerX = game.playerX - game.pixelSteps
   })
   socket.on('moveRight',()=>{
     game.fly ? game.playerFrame = 'public/images/player_right_fly.png' : game.playerFrame = 'public/images/player_right.png'
-    if(game.isColliding) {
-      game.playerX = game.playerX - game.pixelSteps
-    } else {
-      game.playerX = game.playerX + game.pixelSteps
-    }
-    game.player(game.playerX, game.playerY)
+    game.playerX = game.playerX + game.pixelSteps
   })
   function updateGame() {
     setTimeout(()=>{
