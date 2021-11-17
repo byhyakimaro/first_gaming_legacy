@@ -8,7 +8,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 
 const width = 1200
-const height = 700
+const height = 749
 
 const gaming = createCanvas(width, height)
 const ctx = gaming.getContext('2d')
