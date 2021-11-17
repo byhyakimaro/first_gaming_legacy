@@ -11,6 +11,9 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
   game.sockets.unshift(socket)
+  socket.on('attack',()=>{
+    // attack players
+  })
   socket.on('setFly',()=>{
     if(game.fly) {
       game.fly = false

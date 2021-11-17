@@ -1,4 +1,5 @@
 import { createCanvas, loadImage } from 'canvas'
+import * as fs from 'fs'
 
 const width = 1200
 const height = 749
@@ -13,7 +14,6 @@ export class Game {
   public oldTime: number = Date.now()
   public playerWidth: number
   public playerHeight: number 
-  public playerFrame: string = 'public/images/player_sprites/PNG/Wraith_01/PNG Sequences/Walking/Wraith_01_Moving Forward_000.png'
   public sockets = []
   public isColliding: boolean = false
   public playerY: number = height/2
@@ -32,12 +32,13 @@ export class Game {
 
     ctx.fillStyle = '#000000'
     ctx.fillRect(width/1.8, height-200, 100, 10)
+    this.checkCollision(width/1.8, height-200, 100, 10)
   }
 
   async player(x: number, y: number) {
-    const player = await loadImage(this.playerFrame)
-    this.playerWidth = player.width/4
-    this.playerHeight = player.height/4
+    const player = await loadImage('public/images/SpritesPlayer/Reaper_Man_1/PNG/PNG Sequences/Walking/0_Reaper_Man_Walking_000.png')
+    this.playerWidth = player.width/8
+    this.playerHeight = player.height/8
     this.UpdateScene()
     ctx.drawImage(player,x, y, this.playerWidth, this.playerHeight)
   }
@@ -45,7 +46,6 @@ export class Game {
   UpdateScene () {
     ctx.clearRect(0, 0, width, height)
     this.Scene()
-    this.collision(width/1.8, height-200, 100, 10)
   }
 
   UpdateGame() {
@@ -72,7 +72,7 @@ export class Game {
     this.player(this.playerX,this.playerY)
   }
 
-  collision (ObjX:number, ObjY:number, ObjWidth:number, ObjHeight:number) {
+  checkCollision (ObjX:number, ObjY:number, ObjWidth:number, ObjHeight:number) {
     const playerLeft = this.playerX
     const playerRight = this.playerX + this.playerWidth
     const playerTop = this.playerY

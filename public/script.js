@@ -27,3 +27,7 @@ document.addEventListener('keypress',({key}) => {
     socket.emit('setFly')
   }
 })
+
+document.addEventListener('click',() => {
+  socket.emit('attack')
+})
