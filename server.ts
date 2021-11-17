@@ -17,8 +17,10 @@ class Game {
   
   pixelSteps = 4
   fps = 0
+  oldTime = Date.now()
   playerHeight = 48
   playerFrame = 'public/images/player_right.png'
+  sockets = []
   isColliding = false
   playerY = height/2
   playerX = width/2
@@ -27,10 +29,20 @@ class Game {
   constructor () {
     this.Scene()
     this.player(this.playerX, this.playerY)
+    this.UpdateGame()
   }
 
   UpdateGame() {
-    this.gravity(10)
+    let nowTime = Date.now()
+    this.fps = Math.round(1000 / (nowTime - this.oldTime))
+    this.oldTime = nowTime
+    setImmediate(()=>{
+      this.sockets.forEach(socket => {
+        socket.emit('scene', gaming.toDataURL())
+      })
+      this.UpdateGame()
+      this.gravity(10)
+    })
   }
 
   Scene () {
@@ -86,6 +98,7 @@ class Game {
 io.on('connection',(socket)=>{
   console.log(socket.id)
   const game = new Game()
+  game.sockets.unshift(socket)
   socket.on('setFly',()=>{
     if(game.fly) {
       game.fly = false
@@ -109,18 +122,6 @@ io.on('connection',(socket)=>{
     game.fly ? game.playerFrame = 'public/images/player_right_fly.png' : game.playerFrame = 'public/images/player_right.png'
     game.playerX = game.playerX + game.pixelSteps
   })
-  let oldTime = Date.now()
-  function updateGame() {
-    let nowTime = Date.now()
-    game.fps = Math.round(1000 / (nowTime - oldTime))
-    oldTime = nowTime
-    setImmediate(()=>{
-      socket.emit('scene', gaming.toDataURL())
-      game.UpdateGame()
-      updateGame()
-    })
-  }
-  updateGame()
 })
 
 app.use(express.static(__dirname + '/public'))
