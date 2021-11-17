@@ -15,6 +15,7 @@ export class Game {
   public playerWidth: number
   public playerHeight: number 
   public sockets = []
+  public playerFrame = `Walking/0_Reaper_Man_Walking_0.png`
   public isColliding: boolean = false
   public playerY: number = height/2
   public playerX: number = width/2
@@ -34,9 +35,12 @@ export class Game {
     ctx.fillRect(width/1.8, height-200, 100, 10)
     this.checkCollision(width/1.8, height-200, 100, 10)
   }
-
+  spriteCont = 0
   async player(x: number, y: number) {
-    const player = await loadImage('public/images/SpritesPlayer/Reaper_Man_1/PNG/PNG Sequences/Walking/0_Reaper_Man_Walking_000.png')
+    this.spriteCont = this.spriteCont + 1
+    if(this.spriteCont >= 23) this.spriteCont = 0
+    this.playerFrame = `Walking/0_Reaper_Man_Walking_${this.spriteCont}.png`
+    const player = await loadImage('public/images/SpritesPlayer/Reaper_Man_1/PNG/PNGSequences/'+this.playerFrame)
     this.playerWidth = player.width/8
     this.playerHeight = player.height/8
     this.UpdateScene()
