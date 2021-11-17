@@ -16,6 +16,7 @@ const ctx = gaming.getContext('2d')
 class Game {
   
   pixelSteps = 4
+  fps = 0
   playerHeight = 48
   playerFrame = 'public/images/player_right.png'
   isColliding = false
@@ -78,7 +79,7 @@ class Game {
     const player = await loadImage(this.playerFrame)
     this.UpdateScene()
     ctx.drawImage(player,x, y, this.playerHeight, this.playerHeight)
-    console.log(`x: ${x} y: ${y}, isColliding: ${this.isColliding}`)
+    console.log(`x: ${x} y: ${y}, isColliding: ${this.isColliding}, fps: ${this.fps}`)
   }
 }
 
@@ -108,12 +109,16 @@ io.on('connection',(socket)=>{
     game.fly ? game.playerFrame = 'public/images/player_right_fly.png' : game.playerFrame = 'public/images/player_right.png'
     game.playerX = game.playerX + game.pixelSteps
   })
+  let oldTime = Date.now()
   function updateGame() {
-    setTimeout(()=>{
+    let nowTime = Date.now()
+    game.fps = Math.round(1000 / (nowTime - oldTime))
+    oldTime = nowTime
+    setImmediate(()=>{
       socket.emit('scene', gaming.toDataURL())
       game.UpdateGame()
       updateGame()
-    },1)
+    })
   }
   updateGame()
 })
