@@ -17,8 +17,10 @@ io.on('connection',(socket)=>{
   socket.on('setFly',()=>{
     if(game.fly) {
       game.fly = false
+      game.actionPlayer = 'Walking'
     } else {
       game.fly = true
+      game.actionPlayer = 'Jump Loop'
     }
   })
   socket.on('moveUp',()=>{
