@@ -25,7 +25,6 @@ class Game {
   playerX = 0
   playerY = 0
   playerSkin = 2
-  playerSprites
   playerSpritesIndex = 0
   playerAction = 'Walking'
   playerWidth = 128
@@ -39,11 +38,16 @@ class Game {
   fps = 0
 
   constructor() {
-    socket.emit('getSprites',{skin:this.playerSkin})
-    socket.on('callbackSprites',(sprites)=>{
-      this.playerSprites = sprites
-    })
     this.animatePlayer()
+  }
+
+  getSprites() {
+    return new Promise((resolve, reject) =>{
+      socket.emit('getSprites',{skin:this.playerSkin})
+      socket.on('callbackSprites',(sprites)=>{
+        resolve(sprites)
+      })
+    })
   }
 
   animatePlayer() {
@@ -85,4 +89,7 @@ class Game {
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
-const game = new Game()
+(async()=>{
+  const game = new Game()
+  console.log(await game.getSprites())
+})()
