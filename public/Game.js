@@ -19,17 +19,14 @@ socket.on('connect', () => {
   console.log('> Connected to server')
 })
 
-socket.emit('getSprites',{action:'Walking', skin:'1'})
-socket.on('callbackSprites',(sprites)=>{
-  console.log(sprites)
-})
-
 class Game {
   velX = 0
   velY = 0
   playerX = 0
   playerY = 0
   playerSkin = 2
+  playerSprites
+  playerSpritesIndex = 0
   playerAction = 'Walking'
   playerWidth = 128
   playerHeight = 128
@@ -42,6 +39,10 @@ class Game {
   fps = 0
 
   constructor() {
+    socket.emit('getSprites',{skin:this.playerSkin})
+    socket.on('callbackSprites',(sprites)=>{
+      this.playerSprites = sprites
+    })
     this.animatePlayer()
   }
 
@@ -77,10 +78,11 @@ class Game {
     }
   
     const playerImg = new Image()
-    playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_0.png`
+    // this.playerSpritesIndex ++
+    playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
     ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
 
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
-new Game
+const game = new Game()

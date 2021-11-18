@@ -9,13 +9,16 @@ const io = new Server(httpServer)
 
 const sockets = []
 
-function getSprites(actionPlayer, playerSkin) {
+function getSprites(playerSkin) {
   const spriteArray = []
-  const basePath =`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/${actionPlayer}/`
-  const sprites = fs.readdirSync(basePath)
-  for (let i = 0; i < sprites.length; i++) {
-    spriteArray.unshift((`${basePath}0_Reaper_Man_Walking_${i}.png`).replace(/public\//g,''))
-  }
+  const actionPlayer = fs.readdirSync(`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/`)
+  actionPlayer.forEach(file => {
+    const basePath =`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/${file}/`
+    const sprites = fs.readdirSync(basePath)
+    for (let i = 0; i < sprites.length; i++) {
+      spriteArray.unshift((`${basePath}0_Reaper_Man_Walking_${i}.png`).replace(/public\//g,''))
+    }
+  })
   return spriteArray
 }
 
@@ -23,7 +26,7 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   sockets.unshift(socket)
   socket.on('getSprites',(params)=>{
-    socket.emit('callbackSprites',getSprites(params.action,params.skin))
+    socket.emit('callbackSprites',getSprites(params.skin))
   })
   // socket.on('attack',()=>{
   //   game.actionPlayer = 'Slashing'
