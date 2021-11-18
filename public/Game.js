@@ -37,6 +37,7 @@ class Game {
   jumpForce = 25
   friction = 0.85
   speed = 1
+  framesDelay = 75
   oldTime = Date.now()
   fps = 0
 
@@ -79,7 +80,7 @@ class Game {
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_0.png`
     ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
 
-    setTimeout(()=>this.animatePlayer(),1000/60)
+    setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
 new Game
