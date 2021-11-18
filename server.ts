@@ -19,11 +19,12 @@ function getSprites(actionPlayer, playerSkin) {
   return spriteArray
 }
 
-console.log(getSprites('Walking','1'))
-
 io.on('connection',(socket)=>{
   console.log(socket.id)
   sockets.unshift(socket)
+  socket.on('getSprites',(params)=>{
+    socket.emit('callbackSprites',getSprites(params.action,params.skin))
+  })
   // socket.on('attack',()=>{
   //   game.actionPlayer = 'Slashing'
   //   setTimeout(()=>game.actionPlayer = 'Walking',500) 

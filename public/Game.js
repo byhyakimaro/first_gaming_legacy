@@ -19,6 +19,11 @@ socket.on('connect', () => {
   console.log('> Connected to server')
 })
 
+socket.emit('getSprites',{action:'Walking', skin:'1'})
+socket.on('callbackSprites',(sprites)=>{
+  console.log(sprites)
+})
+
 class Game {
   velX = 0
   velY = 0
