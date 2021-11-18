@@ -1,14 +1,29 @@
 import * as express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
+import * as fs from 'fs'
 
 const app = express()
 const httpServer = createServer(app)
 const io = new Server(httpServer)
 
+const sockets = []
+
+function getSprites(actionPlayer, playerSkin) {
+  const spriteArray = []
+  const basePath =`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/${actionPlayer}/`
+  const sprites = fs.readdirSync(basePath)
+  for (let i = 0; i < sprites.length; i++) {
+    spriteArray.unshift((`${basePath}0_Reaper_Man_Walking_${i}.png`).replace(/public\//g,''))
+  }
+  return spriteArray
+}
+
+console.log(getSprites('Walking','1'))
+
 io.on('connection',(socket)=>{
   console.log(socket.id)
-  // game.sockets.unshift(socket)
+  sockets.unshift(socket)
   // socket.on('attack',()=>{
   //   game.actionPlayer = 'Slashing'
   //   setTimeout(()=>game.actionPlayer = 'Walking',500) 
