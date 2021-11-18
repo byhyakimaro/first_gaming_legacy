@@ -24,6 +24,8 @@ class Game {
   velY = 0
   playerX = 0
   playerY = 0
+  playerSkin = 2
+  playerAction = 'Walking'
   playerWidth = 128
   playerHeight = 128
   gravity = 1.4
@@ -69,7 +71,7 @@ class Game {
     }
   
     const playerImg = new Image()
-    playerImg.src = 'images/SpritesPlayer/Reaper_Man_1/Walking/0_Reaper_Man_Walking_0.png'
+    playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_0.png`
     ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
 
     setTimeout(()=>this.animatePlayer(),1000/60)
