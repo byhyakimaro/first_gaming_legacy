@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
-import { Game } from './Game'
 
 const app = express()
 const httpServer = createServer(app)
@@ -9,39 +8,38 @@ const io = new Server(httpServer)
 
 io.on('connection',(socket)=>{
   console.log(socket.id)
-  const game = new Game()
-  game.sockets.unshift(socket)
-  socket.on('attack',()=>{
-    game.actionPlayer = 'Slashing'
-    setTimeout(()=>game.actionPlayer = 'Walking',500) 
-  })
-  socket.on('setSlide',()=>{
-    game.actionPlayer = 'Sliding'
-    setTimeout(()=>game.actionPlayer = 'Walking',500)
-  })
-  socket.on('setFly',()=>{
-    if(game.fly) {
-      game.fly = false
-      game.actionPlayer = 'Walking'
-    } else {
-      game.fly = true
-      game.actionPlayer = 'Jump Loop'
-    }
-  })
-  socket.on('moveUp',()=>{
-    game.playerY = game.playerY - game.pixelSteps
-  })
-  socket.on('moveDown',()=>{
-    game.playerY = game.playerY + game.pixelSteps
-  })
-  socket.on('moveLeft',()=>{
-    game.playerX = game.playerX - game.pixelSteps
-    game.reverseSkins = true
-  })
-  socket.on('moveRight',()=>{
-    game.playerX = game.playerX + game.pixelSteps
-    game.reverseSkins = false
-  })
+  // game.sockets.unshift(socket)
+  // socket.on('attack',()=>{
+  //   game.actionPlayer = 'Slashing'
+  //   setTimeout(()=>game.actionPlayer = 'Walking',500) 
+  // })
+  // socket.on('setSlide',()=>{
+  //   game.actionPlayer = 'Sliding'
+  //   setTimeout(()=>game.actionPlayer = 'Walking',500)
+  // })
+  // socket.on('setFly',()=>{
+  //   if(game.fly) {
+  //     game.fly = false
+  //     game.actionPlayer = 'Walking'
+  //   } else {
+  //     game.fly = true
+  //     game.actionPlayer = 'Jump Loop'
+  //   }
+  // })
+  // socket.on('moveUp',()=>{
+  //   game.playerY = game.playerY - game.pixelSteps
+  // })
+  // socket.on('moveDown',()=>{
+  //   game.playerY = game.playerY + game.pixelSteps
+  // })
+  // socket.on('moveLeft',()=>{
+  //   game.playerX = game.playerX - game.pixelSteps
+  //   game.reverseSkins = true
+  // })
+  // socket.on('moveRight',()=>{
+  //   game.playerX = game.playerX + game.pixelSteps
+  //   game.reverseSkins = false
+  // })
 })
 
 app.use(express.static(__dirname + '/public'))
