@@ -9,11 +9,11 @@ const io = new Server(httpServer)
 
 const sockets = []
 
-function getSprites(playerSkin) {
+function getSprites() {
   const array = []
-  const actionPlayer = fs.readdirSync(`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/`)
+  const actionPlayer = fs.readdirSync(`public/images/SpritesPlayer/Reaper_Man_1/`)
   actionPlayer.forEach(file => {
-    const basePath =`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/${file}/`
+    const basePath =`public/images/SpritesPlayer/Reaper_Man_1/${file}/`
     const sprites = fs.readdirSync(basePath)
       array.unshift({action:file, sprites: sprites.length})
   })
@@ -24,7 +24,7 @@ io.on('connection',(socket)=>{
   console.log(socket.id)
   sockets.unshift(socket)
   socket.on('getSprites',async (params)=>{
-    socket.emit('callbackSprites',await getSprites(params.skin))
+    socket.emit('callbackSprites',await getSprites())
   })
 })
 

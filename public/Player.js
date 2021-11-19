@@ -1,31 +1,25 @@
-const canvas = document.querySelector('canvas')
-const ctx = canvas.getContext('2d')
+
+import { animateMap } from './Map.js'
 
 function $(element) {
   return document.querySelector(element)
 }
-
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
 
 const pressed = {}
 
 document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
-const socket = window.io()
+export class animatePlayer {
+  framesDelay = 60
+  oldTime = Date.now()
+  fps = 0
 
-socket.on('connect', () => {
-  console.log('> Connected to server')
-})
-
-class Game {
   velX = 0
   velY = 0
   playerX = 0
   playerY = 0
   playerSkin = 2
-  playerSprites = []
   playerReverse = false
   playerSpritesIndex = 0
   playerAction = 'Idle'
@@ -35,20 +29,12 @@ class Game {
   jumpForce = 25
   friction = 0.85
   speed = 1
-  framesDelay = 60
-  oldTime = Date.now()
-  fps = 0
 
-  constructor() {
-    this.setSprites()
-  }
-
-  setSprites() {
-    socket.emit('getSprites',{skin:this.playerSkin})
-    socket.on('callbackSprites',(sprites)=>{
-      this.playerSprites = sprites
-      this.animatePlayer()
-    })
+  constructor(canvas, ctx, playerSprites) {
+    this.playerSprites = playerSprites
+    this.canvas = canvas
+    this.ctx = ctx
+    this.animatePlayer()
   }
 
   setAction(actionSet) {
@@ -59,50 +45,45 @@ class Game {
     this.playerAction = actionSet
   }
 
-  drawText(Text, textX, textY) {
-    ctx.save()
-    ctx.fillStyle = '#000000'
-    ctx.font = "20px Courier"
-    ctx.fillText(Text, textX, textY)
-    ctx.restore()
-  }
-
-  drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
-    ctx.save()
-    if(this.playerReverse) {
-      ctx.scale(-1, 1)
-      ctx.drawImage(playerImg, -playerX-100, playerY, playerWidth, playerHeight)
-    } else {
-      ctx.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight)
-    }
-    ctx.restore()
-  }
-
-  drawObj(Color, ObjX, ObjY, ObjWidth, ObjHeight) {
-    ctx.save()
-    ctx.fillStyle = Color
-    ctx.fillRect(ObjX, ObjY, ObjWidth, ObjHeight)
-    ctx.restore()
-
+  checkCollision() {
     if(this.playerX + this.playerWidth > ObjX && 
       this.playerX < ObjX + ObjWidth && 
       this.playerY + this.playerHeight > ObjY && 
       this.playerY < ObjY + ObjHeight){
       this.velY = 0
-    } 
+    }
+  }
+
+  drawText(Text, textX, textY) {
+    this.ctx.save()
+    this.ctx.fillStyle = '#000000'
+    this.ctx.font = "20px Courier"
+    this.ctx.fillText(Text, textX, textY)
+    this.ctx.restore()
+  }
+
+  drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
+    this.ctx.save()
+    if(this.playerReverse) {
+      this.ctx.scale(-1, 1)
+      this.ctx.drawImage(playerImg, -playerX-100, playerY, playerWidth, playerHeight)
+    } else {
+      this.ctx.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight)
+    }
+    this.ctx.restore()
   }
 
   animatePlayer() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
     this.oldTime = nowTime
     this.drawText(`velX:${Math.round(this.velX)} velY:${Math.round(this.velY)} x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, 10, 30)
-    
+
     if(!Object.keys(pressed).length) this.setAction('Idle')
 
-    const floor = canvas.height - this.playerHeight
+    const floor = this.canvas.height - this.playerHeight
     if (this.playerY > floor) {
       this.playerY = floor
       this.velY = 0
@@ -125,8 +106,8 @@ class Game {
       this.setAction('Walking')
     }
     if(pressed.s) this.velY += this.speed
-    
-    this.drawObj('#000000',canvas.width/1.8, canvas.height-200, 100, 10)
+
+    new animateMap(this.canvas, this.ctx)
     
     this.velX *= this.friction
     this.velY += this.gravity
@@ -142,10 +123,9 @@ class Game {
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
     this.drawPlayer(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
     
-    ctx.strokeStyle = 'red'
-    ctx.strokeRect(this.playerX, this.playerY, this.playerWidth, this.playerHeight)
+    this.ctx.strokeStyle = 'red'
+    this.ctx.strokeRect(this.playerX, this.playerY, this.playerWidth, this.playerHeight)
 
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
-const game = new Game()
