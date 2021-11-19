@@ -47,18 +47,22 @@ class Game {
     })
   }
 
-  flipPlayer(img, x, y, w, h) {
-    ctx.save()
-    ctx.scale(-1, 1)
-    ctx.drawImage(img, -x-100, y, w, h)
-    ctx.restore()
-  }
-
   drawText(Text, textX, textY) {
     ctx.save()
     ctx.fillStyle = '#000000'
     ctx.font = "20px Courier"
     ctx.fillText(Text, textX, textY)
+    ctx.restore()
+  }
+
+  drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
+    ctx.save()
+    if(pressed.a) {
+      ctx.scale(-1, 1)
+      ctx.drawImage(playerImg, -playerX-100, playerY, playerWidth, playerHeight)
+    } else {
+      ctx.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight)
+    }
     ctx.restore()
   }
 
@@ -85,7 +89,7 @@ class Game {
     this.velX *= this.friction
     // this.velY *= this.friction
     
-    this.velY += this.gravity
+    if(!this.playerCollision) this.velY += this.gravity
   
     this.playerX += this.velX
     this.playerY += this.velY
@@ -99,16 +103,16 @@ class Game {
         this.velY =- this.jumpForce
         this.playerAction = 'Jump Loop'
         setTimeout(()=>this.playerAction = 'Walking',500) 
-      } 
+      }
     }
-  
-    const playerImg = new Image()
+
     this.playerSpritesIndex ++
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
+  
+    const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
-    if(!pressed.a) ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
-    if(pressed.a) this.flipPlayer(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
+    this.drawPlayer(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
     
     this.drawObj(canvas.width/1.8, canvas.height-200, 100, 10)
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
