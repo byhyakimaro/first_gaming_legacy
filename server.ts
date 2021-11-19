@@ -15,7 +15,7 @@ function getSprites(playerSkin) {
   actionPlayer.forEach(file => {
     const basePath =`public/images/SpritesPlayer/Reaper_Man_${playerSkin}/${file}/`
     const sprites = fs.readdirSync(basePath)
-      array.unshift({action:file, sprites: sprites.length-1})
+      array.unshift({action:file, sprites: sprites.length})
   })
   return array
 }
