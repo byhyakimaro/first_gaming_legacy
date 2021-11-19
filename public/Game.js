@@ -15,16 +15,13 @@ document.onkeyup = ({ key }) => delete pressed[key]
 
 const socket = window.io()
 
-socket.on('connect', () => {
-  console.log('> Connected to server')
-})
-
 class Game {
   velX = 0
   velY = 0
   playerX = 0
   playerY = 0
-  playerSkin = 2
+  playerSkin = 1
+  playerSprites = []
   playerSpritesIndex = 0
   playerAction = 'Walking'
   playerWidth = 128
@@ -33,20 +30,19 @@ class Game {
   jumpForce = 25
   friction = 0.85
   speed = 1
-  framesDelay = 75
+  framesDelay = 60
   oldTime = Date.now()
   fps = 0
 
   constructor() {
-    this.animatePlayer()
+    this.setSprites()
+    setTimeout(()=> this.animatePlayer(),100)
   }
 
-  getSprites() {
-    return new Promise((resolve, reject) =>{
-      socket.emit('getSprites',{skin:this.playerSkin})
-      socket.on('callbackSprites',(sprites)=>{
-        resolve(sprites)
-      })
+  setSprites() {
+    socket.emit('getSprites',{skin:this.playerSkin})
+    socket.on('callbackSprites',(sprites)=>{
+      this.playerSprites = sprites
     })
   }
 
@@ -78,18 +74,25 @@ class Game {
       this.playerY = floor
       this.velY = 0
 
-      if(pressed.w) this.velY =- this.jumpForce
+      if(pressed.w) {
+        this.velY =- this.jumpForce
+        this.playerAction = 'Jump Loop'
+        setTimeout(()=>this.playerAction = 'Walking',500) 
+      } 
     }
   
     const playerImg = new Image()
-    // this.playerSpritesIndex ++
+    this.playerSpritesIndex ++
+    const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
+    if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
     ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
 
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
-(async()=>{
-  const game = new Game()
-  console.log(await game.getSprites())
-})()
+
+socket.on('connect', () => {
+  console.log('> Connected to server')
+  new Game()
+})
