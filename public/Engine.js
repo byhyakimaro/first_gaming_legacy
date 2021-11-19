@@ -25,10 +25,8 @@ export default class Game {
   }
 
   renderGame() {
-    
     this.player.animatePlayer()
     new animateMap(this.canvas, this.ctx)
-    
     setTimeout(()=>this.renderGame(),1000/this.framesDelay)
   }
 }
