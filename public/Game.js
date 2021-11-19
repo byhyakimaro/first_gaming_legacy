@@ -46,6 +46,13 @@ class Game {
     })
   }
 
+  flipPlayer(img, x, y, w, h) {
+    ctx.save()
+    ctx.scale(-1, 1)
+    ctx.drawImage(img, -x-100, y, w, h)
+    ctx.restore()
+  }
+
   animatePlayer() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     
@@ -86,8 +93,8 @@ class Game {
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
-    ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
-
+    if(!pressed.a) ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
+    if(pressed.a) this.flipPlayer(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
