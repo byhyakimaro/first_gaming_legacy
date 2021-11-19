@@ -1,5 +1,5 @@
 
-import { animateMap } from './Map.js'
+import animateMap from './Map.js'
 
 function $(element) {
   return document.querySelector(element)
@@ -10,7 +10,7 @@ const pressed = {}
 document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
-export class animatePlayer {
+export default class animatePlayer {
   framesDelay = 60
   oldTime = Date.now()
   fps = 0

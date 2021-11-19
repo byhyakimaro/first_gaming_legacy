@@ -1,9 +1,9 @@
 
-import { animatePlayer } from './Player.js'
+import animatePlayer from './Player.js'
 
 const socket = window.io()
 
-export class Game {
+export default class Game {
   canvas = document.querySelector('canvas')
   ctx = this.canvas.getContext('2d')
 

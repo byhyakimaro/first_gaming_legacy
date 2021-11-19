@@ -2,7 +2,7 @@ const blocksMap = [
   [0, 0]
 ]
 
-export class animateMap {
+export default class animateMap {
   constructor(canvas, ctx) {
     this.canvas = canvas
     this.ctx = ctx
