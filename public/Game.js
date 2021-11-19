@@ -20,14 +20,13 @@ class Game {
   velY = 0
   playerX = 0
   playerY = 0
-  playerSkin = 3
+  playerSkin = 2
   playerSprites = []
   playerReverse = false
   playerSpritesIndex = 0
   playerAction = 'Walking'
   playerWidth = 128
   playerHeight = 128
-  playerCollision = false
   gravity = 1.4
   jumpForce = 25
   friction = 0.85
@@ -72,6 +71,13 @@ class Game {
     ctx.fillStyle = '#000000'
     ctx.fillRect(ObjX, ObjY, ObjWidth, ObjHeight)
     ctx.restore()
+
+    if(this.playerX + this.playerWidth > ObjX && 
+      this.playerX < ObjX + ObjWidth && 
+      this.playerY + this.playerHeight > ObjY && 
+      this.playerY < ObjY + ObjHeight){
+      this.velY = 0
+    } 
   }
 
   animatePlayer() {
@@ -96,7 +102,7 @@ class Game {
     this.velX *= this.friction
     // this.velY *= this.friction
     
-    if(!this.playerCollision) this.velY += this.gravity
+    this.velY += this.gravity
   
     this.playerX += this.velX
     this.playerY += this.velY
