@@ -37,13 +37,13 @@ class Game {
 
   constructor() {
     this.setSprites()
-    setTimeout(()=> this.animatePlayer(),100)
   }
 
   setSprites() {
     socket.emit('getSprites',{skin:this.playerSkin})
     socket.on('callbackSprites',(sprites)=>{
       this.playerSprites = sprites
+      this.animatePlayer()
     })
   }
 
