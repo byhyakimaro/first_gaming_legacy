@@ -1,5 +1,6 @@
 
 import animatePlayer from './Player.js'
+import animateMap from './Map.js'
 
 const socket = window.io()
 
@@ -26,6 +27,7 @@ export default class Game {
   renderGame() {
     
     this.player.animatePlayer()
+    new animateMap(this.canvas, this.ctx)
     
     setTimeout(()=>this.renderGame(),1000/this.framesDelay)
   }

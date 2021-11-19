@@ -1,5 +1,5 @@
 
-import animateMap from './Map.js'
+
 
 function $(element) {
   return document.querySelector(element)
@@ -103,8 +103,6 @@ export default class animatePlayer {
       this.setAction('Walking')
     }
     if(pressed.s) this.velY += this.speed
-
-    new animateMap(this.canvas, this.ctx)
     
     this.velX *= this.friction
     this.velY += this.gravity
