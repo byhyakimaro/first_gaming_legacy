@@ -13,8 +13,9 @@ document.onkeyup = ({ key }) => delete pressed[key]
 export default class animatePlayer {
   timeCurrent = Date.now()
 
-  velX = 0
-  velY = 0
+  velocity = { x: 0, y: 0 }
+  coordinates = { x: 0, y: 0 }
+
   playerX = 0
   playerY = 0
   playerSkin = 2
@@ -48,7 +49,7 @@ export default class animatePlayer {
       this.playerX < ObjX + ObjWidth && 
       this.playerY + this.playerHeight > ObjY && 
       this.playerY < ObjY + ObjHeight){
-      this.velY = 0
+      this.velocity['y'] = 0
     }
   }
 
@@ -83,32 +84,32 @@ export default class animatePlayer {
     const floor = this.canvas.height - this.playerHeight
     if (this.playerY > floor) {
       this.playerY = floor
-      this.velY = 0
+      this.velocity['y'] = 0
       
       if(pressed.w) {
-        this.velY =- this.jumpForce
+        this.velocity['y'] =- this.jumpForce
         this.setAction('Jump Loop')
         setTimeout(()=>this.setAction('Walking'), 500)
       }
     }
     
     if(pressed.a) {
-      this.velX -= this.speed
+      this.velocity['x'] -= this.speed
       this.playerReverse = true
       this.setAction('Walking')
     }
     if(pressed.d) {
-      this.velX += this.speed
+      this.velocity['x'] += this.speed
       this.playerReverse = false
       this.setAction('Walking')
     }
-    if(pressed.s) this.velY += this.speed
+    if(pressed.s) this.velocity['y'] += this.speed
     
-    this.velX *= this.friction
-    this.velY += this.gravity
+    this.velocity['x'] *= this.friction
+    this.velocity['y'] += this.gravity
   
-    this.playerX += this.velX
-    this.playerY += this.velY
+    this.playerX += this.velocity['x']
+    this.playerY += this.velocity['y']
     
     this.playerSpritesIndex ++
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
