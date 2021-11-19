@@ -14,16 +14,12 @@ export default class animatePlayer {
   timeCurrent = Date.now()
 
   velocity = { x: 0, y: 0 }
-  coordinates = { x: 0, y: 0 }
+  coordinates = { x: 0, y: 0, w: 128, h: 128 }
 
-  playerX = 0
-  playerY = 0
   playerSkin = 2
   playerReverse = false
   playerSpritesIndex = 0
   playerAction = 'Idle'
-  playerWidth = 128
-  playerHeight = 128
   gravity = 1.4
   jumpForce = 25
   friction = 0.85
@@ -44,12 +40,10 @@ export default class animatePlayer {
     this.playerAction = actionSet
   }
 
-  checkCollision() {
-    if(this.playerX + this.playerWidth > ObjX && 
-      this.playerX < ObjX + ObjWidth && 
-      this.playerY + this.playerHeight > ObjY && 
-      this.playerY < ObjY + ObjHeight){
-      this.velocity['y'] = 0
+  checkCollision(x1, y1, w1, h1, x2, y2, w2, h2) {
+    // Check x and y for overlap
+    if(x1 + w1 > x2 && x1 < x2 + w2 && y1 + h1 > y2 && y1 < y2 + h2){
+      return true
     }
   }
 
@@ -77,13 +71,13 @@ export default class animatePlayer {
     var fps = Math.round(1000 / (nowTime - this.timeCurrent))
     this.timeCurrent = nowTime
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${fps}`, 10, 30)
+    this.drawText(`x: ${Math.round(this.coordinates['x'])} y: ${Math.round(this.coordinates['y'])} fps: ${fps}`, 10, 30)
 
     if(!Object.keys(pressed).length) this.setAction('Idle')
 
-    const floor = this.canvas.height - this.playerHeight
-    if (this.playerY > floor) {
-      this.playerY = floor
+    const floor = this.canvas.height - this.coordinates['h']
+    if (this.coordinates['y'] > floor) {
+      this.coordinates['y'] = floor
       this.velocity['y'] = 0
       
       if(pressed.w) {
@@ -105,11 +99,19 @@ export default class animatePlayer {
     }
     if(pressed.s) this.velocity['y'] += this.speed
     
+    console.log(this.checkCollision(
+      this.coordinates['x'],
+      this.coordinates['y'],
+      this.coordinates['w'],
+      this.coordinates['h'],
+      581,549,10,200
+    ))
+
     this.velocity['x'] *= this.friction
     this.velocity['y'] += this.gravity
   
-    this.playerX += this.velocity['x']
-    this.playerY += this.velocity['y']
+    this.coordinates['x'] += this.velocity['x']
+    this.coordinates['y'] += this.velocity['y']
     
     this.playerSpritesIndex ++
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
@@ -117,9 +119,9 @@ export default class animatePlayer {
   
     const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
-    this.drawPlayer(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
+    this.drawPlayer(playerImg, this.coordinates['x'], this.coordinates['y'], this.coordinates['w'], this.coordinates['h'])
     
     this.ctx.strokeStyle = 'red'
-    this.ctx.strokeRect(this.playerX, this.playerY, this.playerWidth, this.playerHeight)
+    this.ctx.strokeRect(this.coordinates['x'], this.coordinates['y'], this.coordinates['w'], this.coordinates['h'])
   }
 }
