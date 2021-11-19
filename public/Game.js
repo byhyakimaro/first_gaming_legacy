@@ -20,8 +20,9 @@ class Game {
   velY = 0
   playerX = 0
   playerY = 0
-  playerSkin = 1
+  playerSkin = 3
   playerSprites = []
+  playerReverse = false
   playerSpritesIndex = 0
   playerAction = 'Walking'
   playerWidth = 128
@@ -57,7 +58,7 @@ class Game {
 
   drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
     ctx.save()
-    if(pressed.a) {
+    if(this.playerReverse) {
       ctx.scale(-1, 1)
       ctx.drawImage(playerImg, -playerX-100, playerY, playerWidth, playerHeight)
     } else {
@@ -81,8 +82,14 @@ class Game {
     this.oldTime = nowTime
     this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, canvas.width-300, 30)
   
-    if(pressed.a) this.velX -= this.speed
-    if(pressed.d) this.velX += this.speed
+    if(pressed.a) {
+      this.velX -= this.speed
+      this.playerReverse = true
+    }
+    if(pressed.d) {
+      this.velX += this.speed
+      this.playerReverse = false
+    }
     
     if(pressed.s) this.velY += this.speed
   
