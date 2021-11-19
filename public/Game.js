@@ -15,6 +15,10 @@ document.onkeyup = ({ key }) => delete pressed[key]
 
 const socket = window.io()
 
+socket.on('connect', () => {
+  console.log('> Connected to server')
+})
+
 class Game {
   velX = 0
   velY = 0
@@ -88,25 +92,6 @@ class Game {
     this.oldTime = nowTime
     this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, 10, 30)
   
-    if(pressed.a) {
-      this.velX -= this.speed
-      this.playerReverse = true
-    }
-    if(pressed.d) {
-      this.velX += this.speed
-      this.playerReverse = false
-    }
-    
-    if(pressed.s) this.velY += this.speed
-  
-    this.velX *= this.friction
-    // this.velY *= this.friction
-    
-    this.velY += this.gravity
-  
-    this.playerX += this.velX
-    this.playerY += this.velY
-
     const floor = canvas.height - this.playerHeight
     if (this.playerY > floor) {
       this.playerY = floor
@@ -118,6 +103,22 @@ class Game {
         setTimeout(()=>this.playerAction = 'Walking',500) 
       }
     }
+
+    if(pressed.a) {
+      this.velX -= this.speed
+      this.playerReverse = true
+    }
+    if(pressed.d) {
+      this.velX += this.speed
+      this.playerReverse = false
+    }
+    if(pressed.s) this.velY += this.speed
+  
+    this.velX *= this.friction
+    this.velY += this.gravity
+  
+    this.playerX += this.velX
+    this.playerY += this.velY
 
     this.playerSpritesIndex ++
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
@@ -131,8 +132,4 @@ class Game {
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
-
-socket.on('connect', () => {
-  console.log('> Connected to server')
-  new Game()
-})
+const game = new Game()
