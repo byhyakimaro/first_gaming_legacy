@@ -1,13 +1,16 @@
-const blocksMap = [
-  [0, 0]
-]
-
 export default class animateMap {
+  blocksMap = [
+    [581,549,10,200],
+    [517,549,120,10]
+  ]
+
   constructor(canvas, ctx) {
     this.canvas = canvas
     this.ctx = ctx
 
-    this.drawObj('#000000',this.canvas.width/1.8, this.canvas.height-200, 100, 10)
+    for(const [ x, y, w, h ] of this.blocksMap) {
+      this.drawObj('#000000',x,y,w,h)
+    }
   }
 
   drawObj(Color, ObjX, ObjY, ObjWidth, ObjHeight) {
