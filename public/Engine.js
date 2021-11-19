@@ -6,6 +6,8 @@ const socket = window.io()
 export default class Game {
   canvas = document.querySelector('canvas')
   ctx = this.canvas.getContext('2d')
+  framesDelay = 60
+  player
 
   constructor() {
     this.setSprites()
@@ -16,8 +18,16 @@ export default class Game {
   setSprites() {
     socket.emit('getSprites')
     socket.on('callbackSprites',(sprites)=>{
-      new animatePlayer(this.canvas, this.ctx, sprites)
+      this.player = new animatePlayer(this.canvas, this.ctx, sprites)
+      this.renderGame()
     })
+  }
+
+  renderGame() {
+    
+    this.player.animatePlayer()
+    
+    setTimeout(()=>this.renderGame(),1000/this.framesDelay)
   }
 }
 

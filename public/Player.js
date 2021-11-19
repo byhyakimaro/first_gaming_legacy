@@ -11,10 +11,8 @@ document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
 export default class animatePlayer {
-  framesDelay = 60
   oldTime = Date.now()
   fps = 0
-
   velX = 0
   velY = 0
   playerX = 0
@@ -54,14 +52,6 @@ export default class animatePlayer {
     }
   }
 
-  drawText(Text, textX, textY) {
-    this.ctx.save()
-    this.ctx.fillStyle = '#000000'
-    this.ctx.font = "20px Courier"
-    this.ctx.fillText(Text, textX, textY)
-    this.ctx.restore()
-  }
-
   drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
     this.ctx.save()
     if(this.playerReverse) {
@@ -73,13 +63,20 @@ export default class animatePlayer {
     this.ctx.restore()
   }
 
+  drawText(Text, textX, textY) {
+    this.ctx.save()
+    this.ctx.fillStyle = '#000000'
+    this.ctx.font = "20px Courier"
+    this.ctx.fillText(Text, textX, textY)
+    this.ctx.restore()
+  }
+
   animatePlayer() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
     this.oldTime = nowTime
-    this.drawText(`velX:${Math.round(this.velX)} velY:${Math.round(this.velY)} x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, 10, 30)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, 10, 30)
 
     if(!Object.keys(pressed).length) this.setAction('Idle')
 
@@ -125,7 +122,5 @@ export default class animatePlayer {
     
     this.ctx.strokeStyle = 'red'
     this.ctx.strokeRect(this.playerX, this.playerY, this.playerWidth, this.playerHeight)
-
-    setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
