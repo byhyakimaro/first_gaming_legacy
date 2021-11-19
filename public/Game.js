@@ -86,7 +86,7 @@ class Game {
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
     this.oldTime = nowTime
-    this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, canvas.width-300, 30)
+    this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, 10, 30)
   
     if(pressed.a) {
       this.velX -= this.speed
