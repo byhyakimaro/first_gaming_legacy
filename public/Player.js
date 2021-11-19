@@ -74,7 +74,7 @@ export default class animatePlayer {
   animatePlayer() {
     let nowTime = Date.now()
     var fps = Math.round(1000 / (nowTime - this.timeCurrent))
-    this.oldTime = nowTime
+    this.timeCurrent = nowTime
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${fps}`, 10, 30)
 
