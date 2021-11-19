@@ -26,6 +26,7 @@ class Game {
   playerAction = 'Walking'
   playerWidth = 128
   playerHeight = 128
+  playerCollision = false
   gravity = 1.4
   jumpForce = 25
   friction = 0.85
@@ -53,15 +54,28 @@ class Game {
     ctx.restore()
   }
 
+  drawText(Text, textX, textY) {
+    ctx.save()
+    ctx.fillStyle = '#000000'
+    ctx.font = "20px Courier"
+    ctx.fillText(Text, textX, textY)
+    ctx.restore()
+  }
+
+  drawObj(ObjX, ObjY, ObjWidth, ObjHeight) {
+    ctx.save()
+    ctx.fillStyle = '#000000'
+    ctx.fillRect(ObjX, ObjY, ObjWidth, ObjHeight)
+    ctx.restore()
+  }
+
   animatePlayer() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     
     let nowTime = Date.now()
     this.fps = Math.round(1000 / (nowTime - this.oldTime))
     this.oldTime = nowTime
-    ctx.fillStyle = '#000000'
-    ctx.font = "20px Courier"
-    ctx.fillText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, canvas.width-300, 30)
+    this.drawText(`x: ${Math.round(this.playerX)} y: ${Math.round(this.playerY)} fps: ${this.fps}`, canvas.width-300, 30)
   
     if(pressed.a) this.velX -= this.speed
     if(pressed.d) this.velX += this.speed
@@ -95,6 +109,8 @@ class Game {
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
     if(!pressed.a) ctx.drawImage(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
     if(pressed.a) this.flipPlayer(playerImg, this.playerX, this.playerY, this.playerWidth, this.playerHeight)
+    
+    this.drawObj(canvas.width/1.8, canvas.height-200, 100, 10)
     setTimeout(()=>this.animatePlayer(),1000/this.framesDelay)
   }
 }
