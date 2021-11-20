@@ -47,6 +47,37 @@ export default class animatePlayer {
     }
   }
 
+  checkDistance(colision, coordinate) {
+    const playerDimention = { x: 'w', y: 'h' }[coordinate]
+    const blockDimention = { x: 0, y: 1 }[coordinate]
+  
+    const pC = this.coordinates[coordinate]
+    const pS = this.coordinates[playerDimention]
+  
+    const bC = colision[blockDimention]
+    const bS = 10
+  
+    const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS);
+  
+    return - distance;
+  }
+
+  calculateCollision() {
+    const checkCol = this.checkCollision(
+      this.coordinates['x'],
+      this.coordinates['y'],
+      this.coordinates['w'],
+      this.coordinates['h'],
+      470,549,120,10
+    )
+
+    if(checkCol) {
+      this.coordinates['y'] += this.checkDistance([470,549],'y')
+
+      this.velocity['y'] = 0
+    }
+  }
+
   drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
     this.ctx.save()
     if(this.playerReverse) {
@@ -98,14 +129,8 @@ export default class animatePlayer {
       this.setAction('Walking')
     }
     if(pressed.s) this.velocity['y'] += this.speed
-    
-    console.log(this.checkCollision(
-      this.coordinates['x'],
-      this.coordinates['y'],
-      this.coordinates['w'],
-      this.coordinates['h'],
-      581,549,10,200
-    ))
+
+    this.calculateCollision()
 
     this.velocity['x'] *= this.friction
     this.velocity['y'] += this.gravity
