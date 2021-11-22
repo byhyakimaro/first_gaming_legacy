@@ -10,7 +10,9 @@ export default class Game {
   framesDelay = 60
   blocks = [
     [0,555,64,64],
-    [64,555,64,64]
+    [64,555,64,64],
+    [128,555,64,64],
+    [192,555,64,64],
   ]
   player
 
