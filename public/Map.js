@@ -1,9 +1,5 @@
 export default class animateMap {
-  blocksMap = [
-    [581,549,10,200],
-    [470,549,120,10],
-    [670,400,120,120],
-  ]
+  blocksMap = document.game.blocks
 
   constructor(canvas, ctx) {
     this.canvas = canvas

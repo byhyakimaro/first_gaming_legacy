@@ -16,7 +16,8 @@ export default class animatePlayer {
   velocity = { x: 0, y: 0 }
   coordinates = { x: 0, y: 0, w: 128, h: 128 }
 
-  playerSkin = 2
+  blocksMap = document.game.blocks
+  playerSkin = 3
   playerReverse = false
   playerSpritesIndex = 0
   playerAction = 'Idle'
@@ -40,11 +41,16 @@ export default class animatePlayer {
     this.playerAction = actionSet
   }
 
-  checkCollision(x1, y1, w1, h1, x2, y2, w2, h2) {
+  checkCollision(coordinate, apply) {
+    const { x, y, w: w1, h: h1 } = this.coordinates
+
+    const newCoord = { x, y }
+    newCoord[coordinate] += apply
+  
+    const { x: x1, y: y1 } = newCoord
+
     // Check x and y for overlap
-    if(x1 + w1 > x2 && x1 < x2 + w2 && y1 + h1 > y2 && y1 < y2 + h2){
-      return true
-    }
+    return this.blocksMap.find(([ x2, y2, w2, h2 ]) => x1 + w1 > x2 && x1 < x2 + w2 && y1 + h1 > y2 && y1 < y2 + h2)
   }
 
   checkDistance(colision, coordinate) {
@@ -55,26 +61,24 @@ export default class animatePlayer {
     const pS = this.coordinates[playerDimention]
   
     const bC = colision[blockDimention]
-    const bS = 10
+    const bS = colision[{ x: 0, y: 1, w: 2, h: 3 }['h']]
   
-    const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS);
+    const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
   
-    return - distance;
+    return - distance
   }
 
   calculateCollision() {
-    const checkCol = this.checkCollision(
-      this.coordinates['x'],
-      this.coordinates['y'],
-      this.coordinates['w'],
-      this.coordinates['h'],
-      470,549,120,10
-    )
+    const sides = [ [ 'x', 'w' ], [ 'y', 'h' ] ]
 
-    if(checkCol) {
-      this.coordinates['y'] += this.checkDistance([470,549],'y')
-
-      this.velocity['y'] = 0
+    for(const [ coordinate, size ] of sides) {
+      const checkCol = this.checkCollision(coordinate, this.velocity[coordinate])
+  
+      if(checkCol) {
+        this.coordinates[coordinate] += this.checkDistance(checkCol, coordinate)
+  
+        this.velocity[coordinate] = 0
+      }
     }
   }
 

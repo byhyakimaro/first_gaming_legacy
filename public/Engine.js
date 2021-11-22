@@ -8,6 +8,11 @@ export default class Game {
   canvas = document.querySelector('canvas')
   ctx = this.canvas.getContext('2d')
   framesDelay = 60
+  blocks = [
+    [581,549,10,200],
+    [470,600,120,10],
+    [670,500,120,120],
+  ]
   player
 
   constructor() {
@@ -26,12 +31,12 @@ export default class Game {
 
   renderGame() {
     this.player.animatePlayer()
-    new animateMap(this.canvas, this.ctx)
+    const animate = new animateMap(this.canvas, this.ctx)
     setTimeout(()=>this.renderGame(),1000/this.framesDelay)
   }
 }
 
 socket.on('connect', () => {
   console.log('> Connected to server')
-  new Game()
+  document.game = new Game()
 })
