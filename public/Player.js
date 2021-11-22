@@ -62,8 +62,10 @@ export default class animatePlayer {
   
     const bC = collision[blockDimension]
     const bS = collision[{ x: 2, y: 3, w: 0, h: 1 }[coordinate]]
-  
+
     const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
+
+    console.log(distance)
   
     return - distance
   }
@@ -75,7 +77,6 @@ export default class animatePlayer {
       const checkCol = this.checkCollision(coordinate, this.velocity[coordinate])
   
       if(checkCol) {
-        console.log(checkCol, coordinate, this.checkDistance(checkCol, coordinate))
         this.coordinates[coordinate] += this.checkDistance(checkCol, coordinate)
   
         this.velocity[coordinate] = 0
