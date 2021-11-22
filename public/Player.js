@@ -35,7 +35,6 @@ export default class animatePlayer {
 
   setAction(actionSet) {
     if(!this.playerSprites.find(({ action }) => action === actionSet)) {
-      console.log(this.playerSprites)
       throw new Error('Invalid action')
     }
     this.playerAction = actionSet
@@ -65,7 +64,6 @@ export default class animatePlayer {
   
     const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
   
-    console.log(bS, coordinate)
     return - distance
   }
 
@@ -76,6 +74,7 @@ export default class animatePlayer {
       const checkCol = this.checkCollision(coordinate, this.velocity[coordinate])
   
       if(checkCol) {
+        console.log(this.checkDistance(checkCol, coordinate), coordinate)
         this.coordinates[coordinate] += this.checkDistance(checkCol, coordinate)
   
         this.velocity[coordinate] = 0
