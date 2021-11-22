@@ -61,10 +61,11 @@ export default class animatePlayer {
     const pS = this.coordinates[playerDimention]
   
     const bC = colision[blockDimention]
-    const bS = colision[{ x: 0, y: 1, w: 2, h: 3 }['h']]
+    const bS = colision[{ w: 0, h: 1, x: 2, y: 3 }[coordinate]]
   
     const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
   
+    console.log(bS, coordinate)
     return - distance
   }
 
