@@ -41,26 +41,27 @@ export default class animatePlayer {
   }
 
   checkCollision(coordinate, apply) {
-    const { x, y, w: w1, h: h1 } = this.coordinates
-
+    const { x, y, w: pW, h: pH } = this.coordinates
+      
     const newCoord = { x, y }
     newCoord[coordinate] += apply
   
-    const { x: x1, y: y1 } = newCoord
-
-    // Check x and y for overlap
-    return this.blocksMap.find(([ x2, y2, w2, h2 ]) => x1 + w1 > x2 && x1 < x2 + w2 && y1 + h1 > y2 && y1 < y2 + h2)
+    const { x: pX, y: pY } = newCoord
+  
+    const colisions = this.blocksMap
+  
+    return colisions.find(([ bX, bY, bW, bH ]) => pX + pW > bX && pX < bX + bW && pY + pH > bY && pY < bY + bH)
   }
 
-  checkDistance(colision, coordinate) {
-    const playerDimention = { x: 'w', y: 'h' }[coordinate]
-    const blockDimention = { x: 0, y: 1 }[coordinate]
+  checkDistance(collision, coordinate) {
+    const playerDimension = { x: 'w', y: 'h' }[coordinate]
+    const blockDimension = { x: 0, y: 1 }[coordinate]
   
     const pC = this.coordinates[coordinate]
-    const pS = this.coordinates[playerDimention]
+    const pS = this.coordinates[playerDimension]
   
-    const bC = colision[blockDimention]
-    const bS = colision[{ w: 0, h: 1, x: 2, y: 3 }[coordinate]]
+    const bC = collision[blockDimension]
+    const bS = collision[{ x: 2, y: 3, w: 0, h: 1 }[coordinate]]
   
     const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
   
@@ -74,7 +75,7 @@ export default class animatePlayer {
       const checkCol = this.checkCollision(coordinate, this.velocity[coordinate])
   
       if(checkCol) {
-        console.log(this.checkDistance(checkCol, coordinate), coordinate)
+        console.log(checkCol, coordinate, this.checkDistance(checkCol, coordinate))
         this.coordinates[coordinate] += this.checkDistance(checkCol, coordinate)
   
         this.velocity[coordinate] = 0
