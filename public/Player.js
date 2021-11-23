@@ -69,12 +69,12 @@ export default class animatePlayer {
   }
 
   calculateCollision() {
-    const sides = [ [ 'x', 'w' ], [ 'y', 'h' ] ]
 
-    for(const [ coordinate, size ] of sides) {
+    for(const [ coordinate ] of [ 'x', 'y' ]) {
       const checkCol = this.checkCollision(coordinate, this.velocity[coordinate])
   
       if(checkCol) {
+        console.log(coordinate)
         this.coordinates[coordinate] += this.checkDistance(checkCol, coordinate)
   
         this.velocity[coordinate] = 0
