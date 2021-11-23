@@ -53,13 +53,12 @@ export default class animatePlayer {
     nextPosition['y'] += velocity
 
     for(let block of this.blocksMap) {
-      console.log(block)
-      return (
+      if (
         nextPosition.x + nextPosition.w > block[blockCoordinate['x']] &&
         nextPosition.x < block[blockCoordinate['x']] + block[blockCoordinate['w']] &&
         nextPosition.y + nextPosition.h > block[blockCoordinate['y']] &&
         nextPosition.y < block[blockCoordinate['y']] + block[blockCoordinate['h']]
-      )
+      ) return block
     }
   }
 
