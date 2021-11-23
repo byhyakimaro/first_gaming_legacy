@@ -41,8 +41,6 @@ export default class animatePlayer {
   }
 
   willCollide() {
-    const blocks = this.blocksMap
-
     const velocity = this.velocity['y'] += this.gravity
     const blockCoordinate = { x: 0, y: 1, w: 2, h: 3 }
 
