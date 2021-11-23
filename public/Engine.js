@@ -9,10 +9,10 @@ export default class Game {
   ctx = this.canvas.getContext('2d')
   framesDelay = 1000/60
   blocks = [
-    [0,557,64,64],
     [64,557,64,64],
     [128,557,64,64],
     [192,557,64,64],
+    [256,557,64,64]
   ]
   player
 
