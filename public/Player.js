@@ -64,8 +64,6 @@ export default class animatePlayer {
     const bS = collision[{ x: 2, y: 3, w: 0, h: 1 }[coordinate]]
 
     const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
-
-    console.log(distance)
   
     return - distance
   }
