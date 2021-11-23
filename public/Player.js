@@ -40,8 +40,33 @@ export default class animatePlayer {
     this.playerAction = actionSet
   }
 
-  calculateCollision() {
+  willCollide(block, coordinate, velocity) {
+    const blockCoordinate = { x: 0, y: 1, w: 2, h: 3 }
+
+    const nextPosition = {
+      x: this.coordinates['x'],
+      y: this.coordinates['y'],
+      w: this.coordinates['w'],
+      h: this.coordinates['h']
+    }
     
+    nextPosition[coordinate] += velocity
+
+    return (
+      nextPosition.x + nextPosition.w > block[blockCoordinate['x']] &&
+      nextPosition.x < block[blockCoordinate['x']] + block[blockCoordinate['w']] &&
+      nextPosition.y + nextPosition.h > block[blockCoordinate['y']] &&
+      nextPosition.y < block[blockCoordinate['y']] + block[blockCoordinate['h']]
+    )
+  }
+
+  calculateCollision() {
+    const will = this.willCollide(this.blocksMap[0], 'y', this.velocity['y'] += this.gravity)
+    if(will) {
+      this.velocity['y'] = 0
+    } else {
+      this.velocity['y'] += this.gravity
+    }
   }
 
   drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
@@ -99,7 +124,7 @@ export default class animatePlayer {
     this.calculateCollision()
 
     this.velocity['x'] *= this.friction
-    this.velocity['y'] += this.gravity
+    // this.velocity['y'] += this.gravity
   
     this.coordinates['x'] += this.velocity['x']
     this.coordinates['y'] += this.velocity['y']
