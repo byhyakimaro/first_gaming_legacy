@@ -64,6 +64,7 @@ export default class animatePlayer {
   calculateCollision() {
     for(const coordinate of ['x', 'y']) {
       const velocity = coordinate === 'y' ? this.velocity['y'] += this.gravity : this.velocity['x']
+      const coll = this.willCollide(coordinate, velocity)
       if(coll) {
         console.log(coordinate, velocity)
         this.velocity[coordinate] = 0
