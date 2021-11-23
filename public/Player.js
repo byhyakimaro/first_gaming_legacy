@@ -101,12 +101,12 @@ export default class animatePlayer {
     if (this.coordinates['y'] > floor) {
       this.coordinates['y'] = floor
       this.velocity['y'] = 0
-      
-      if(pressed.w) {
-        this.velocity['y'] =- this.jumpForce
-        this.setAction('Jump Loop')
-        setTimeout(()=>this.setAction('Walking'), 500)
-      }
+    }
+
+    if(pressed.w) {
+      this.velocity['y'] =- this.jumpForce
+      this.setAction('Jump Loop')
+      setTimeout(()=>this.setAction('Walking'), 500)
     }
     
     if(pressed.a) {
