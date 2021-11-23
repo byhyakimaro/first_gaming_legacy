@@ -13,6 +13,7 @@ export default class animatePlayer {
   blocksMap = document.game.blocks
   playerSkin = 3
   playerReverse = false
+  collision = false
   playerSpritesIndex = 0
   playerAction = 'Idle'
   gravity = 1.4
@@ -77,7 +78,9 @@ export default class animatePlayer {
       const coll = this.willCollide(coordinate, velocity)
       if(coll) {
         this.velocity[coordinate] = this.calculateDistance(coll, coordinate)
+        this.collision = true
       } else {
+        this.collision = false
         velocity
       }
     }
@@ -115,9 +118,14 @@ export default class animatePlayer {
     if (this.coordinates['y'] > floor) {
       this.coordinates['y'] = floor
       this.velocity['y'] = 0
+      if(this.coordinates['y'] == floor) {
+        this.collision = true
+      } else {
+        this.collision = false
+      }
     }
 
-    if(pressed.w) {
+    if(pressed.w && this.collision) {
       this.velocity['y'] =- this.jumpForce
       this.setAction('Jump Loop')
       setTimeout(()=>this.setAction('Walking'), 500)
