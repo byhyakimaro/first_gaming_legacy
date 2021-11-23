@@ -40,7 +40,8 @@ export default class animatePlayer {
     this.playerAction = actionSet
   }
 
-  willCollide(block, coordinate, velocity) {
+  willCollide(block, coordinate) {
+    const velocity = this.velocity['y'] += this.gravity
     const blockCoordinate = { x: 0, y: 1, w: 2, h: 3 }
 
     const nextPosition = {
@@ -61,7 +62,7 @@ export default class animatePlayer {
   }
 
   calculateCollision() {
-    const will = this.willCollide(this.blocksMap[0], 'y', this.velocity['y'] += this.gravity)
+    const will = this.willCollide(this.blocksMap[0], 'y')
     if(will) {
       this.velocity['y'] = 0
     } else {
