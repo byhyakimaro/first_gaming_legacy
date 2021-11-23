@@ -40,6 +40,22 @@ export default class animatePlayer {
     this.playerAction = actionSet
   }
 
+  calculateDistance(block, coordinate) {
+    const bC = { x: 0, y: 1 }[coordinate]
+    const bS = { x: 2, y: 3 }[coordinate]
+    const pS = { x: 'w', y: 'h' }[coordinate]
+
+    const blockCoordinate = block[bC]
+    const blockSize = block[bS]
+
+    const playerCoordinate = this.coordinates[coordinate]
+    const playerSize = this.coordinates[pS]
+
+    const distance = blockCoordinate > playerCoordinate ? (playerCoordinate + playerSize) - blockCoordinate : playerCoordinate - (blockCoordinate + blockSize)
+
+    return - distance
+  }
+
   willCollide(coordinate, velocity) {
     const blockCoordinate = { x: 0, y: 1, w: 2, h: 3 }
 
@@ -66,7 +82,7 @@ export default class animatePlayer {
       const velocity = coordinate === 'y' ? this.velocity['y'] += this.gravity : this.velocity['x']
       const coll = this.willCollide(coordinate, velocity)
       if(coll) {
-        this.velocity[coordinate] = 0
+        this.velocity[coordinate] = this.calculateDistance(coll, coordinate)
       } else {
         velocity
       }
