@@ -7,7 +7,7 @@ const socket = window.io()
 export default class Game {
   canvas = document.querySelector('canvas')
   ctx = this.canvas.getContext('2d')
-  framesDelay = 60
+  framesDelay = 1000/60
   blocks = [
     [0,557,64,64],
     [64,557,64,64],
@@ -33,7 +33,7 @@ export default class Game {
   renderGame() {
     this.player.animatePlayer()
     const animate = new animateMap(this.canvas, this.ctx)
-    setTimeout(()=>this.renderGame(),1000/this.framesDelay)
+    setTimeout(()=>this.renderGame(),this.framesDelay)
   }
 }
 
