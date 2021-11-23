@@ -48,9 +48,9 @@ export default class animatePlayer {
   
     const { x: pX, y: pY } = newCoord
   
-    const colisions = this.blocksMap
+    const collisions = this.blocksMap
   
-    return colisions.find(([ bX, bY, bW, bH ]) => pX + pW > bX && pX < bX + bW && pY + pH > bY && pY < bY + bH)
+    return collisions.find(([ bX, bY, bW, bH ]) => pX + pW > bX && pX < bX + bW && pY + pH > bY && pY < bY + bH)
   }
 
   checkDistance(collision, coordinate) {
