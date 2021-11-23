@@ -40,46 +40,8 @@ export default class animatePlayer {
     this.playerAction = actionSet
   }
 
-  checkCollision(coordinate, apply) {
-    const { x, y, w: pW, h: pH } = this.coordinates
-      
-    const newCoord = { x, y }
-    newCoord[coordinate] += apply
-  
-    const { x: pX, y: pY } = newCoord
-  
-    const collisions = this.blocksMap
-  
-    return collisions.find(([ bX, bY, bW, bH ]) => pX + pW > bX && pX < bX + bW && pY + pH > bY && pY < bY + bH)
-  }
-
-  checkDistance(collision, coordinate) {
-    const playerDimension = { x: 'w', y: 'h' }[coordinate]
-    const blockDimension = { x: 0, y: 1 }[coordinate]
-  
-    const pC = this.coordinates[coordinate]
-    const pS = this.coordinates[playerDimension]
-  
-    const bC = collision[blockDimension]
-    const bS = collision[{ x: 2, y: 3, w: 0, h: 1 }[coordinate]]
-
-    const distance = bC > pC ? (pC + pS) - bC : pC - (bC + bS)
-  
-    return - distance
-  }
-
   calculateCollision() {
-
-    for(const [ coordinate ] of [ 'x', 'y' ]) {
-      const checkCol = this.checkCollision(coordinate, this.velocity[coordinate])
-  
-      if(checkCol) {
-        console.log(coordinate)
-        this.coordinates[coordinate] += this.checkDistance(checkCol, coordinate)
-  
-        this.velocity[coordinate] = 0
-      }
-    }
+    
   }
 
   drawPlayer(playerImg, playerX, playerY, playerWidth, playerHeight) {
