@@ -1,10 +1,4 @@
 
-
-
-function $(element) {
-  return document.querySelector(element)
-}
-
 const pressed = {}
 
 document.onkeydown = ({ key }) => pressed[key] = true
