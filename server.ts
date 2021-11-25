@@ -10,6 +10,7 @@ const httpServer = createServer(app)
 const io = new Server(httpServer)
 
 const sockets = []
+const connected = {}
 
 function getSprites() {
   const array = []
@@ -43,13 +44,18 @@ io.on('connection',(socket)=>{
 
   socket.on('register', (nick)=>{
     const data = setRegister(socket, nick)
+    connected[data.token] = data
     socket.emit('newRegister', Buffer.from(JSON.stringify(data)).toString('base64'))
   })
 
   socket.on('login', (token)=>{
-    const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
-    sockets[tokenID.token] = socket
-    console.log(sockets[tokenID.token])
+    try { 
+      const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
+      sockets[tokenID.token] = socket
+      console.log(tokenID)
+    } catch (e) {
+      socket.emit('failedLogin')
+    }
   })
 
   socket.on('getSprites',async (params)=>{

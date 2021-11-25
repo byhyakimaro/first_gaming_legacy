@@ -15,10 +15,13 @@ export default class Game {
   ]
 
   constructor() {
+    this.eventConnection()
     this.setSprites()
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+  }
 
+  eventConnection() {
     if (localStorage.getItem('token') === null) {
       socket.emit('register', 'Hyakimaro')
       socket.on('newRegister', (data) => {
@@ -26,6 +29,10 @@ export default class Game {
       })
     } else {
       socket.emit('login', localStorage.getItem('token'))
+      socket.on('failedLogin', () => {
+        localStorage.removeItem('token')
+        this.eventConnection()
+      })
     }
   }
 
