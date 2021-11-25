@@ -1,4 +1,3 @@
-import Controllers from './Controllers.js'
 import Player from './Player.js'
 import Map from './Map.js'
 
@@ -15,7 +14,6 @@ export default class Game {
   ]
 
   constructor() {
-    new Controllers()
     this.eventConnection()
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight

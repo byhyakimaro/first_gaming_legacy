@@ -1,5 +1,7 @@
 const pressed = {}
 
+document.onmousedown = ({ path }) => pressed[path[0].id] = true
+document.onmouseup = ({ path }) => delete pressed[path[0].id]
 document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
@@ -108,23 +110,23 @@ export default class Player {
       }
     }
 
-    if(pressed.w && this.collision) {
+    if(pressed.w && this.collision || pressed.top && this.collision) {
       this.velocity['y'] =- this.jumpForce
       this.setAction('Jump Loop')
       setTimeout(()=>this.setAction('Walking'), 500)
     }
     
-    if(pressed.a) {
+    if(pressed.a || pressed.left) {
       this.velocity['x'] -= this.speed
       this.playerReverse = true
       this.setAction('Walking')
     }
-    if(pressed.d) {
+    if(pressed.d || pressed.right) {
       this.velocity['x'] += this.speed
       this.playerReverse = false
       this.setAction('Walking')
     }
-    if(pressed.s) this.velocity['y'] += this.speed
+    if(pressed.s || pressed.down) this.velocity['y'] += this.speed
 
     this.calculateCollision()
 
