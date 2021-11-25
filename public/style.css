@@ -8,6 +8,7 @@
 }
 
 * {
+  user-select: none;
   font-family: pixel;
   margin: 0;
   padding: 0;
