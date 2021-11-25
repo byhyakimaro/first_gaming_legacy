@@ -20,6 +20,7 @@ export default class animatePlayer {
   speed = 1
 
   constructor(canvas, ctx, playerSprites) {
+    this.playerData = JSON.parse(atob(localStorage.getItem('token')))
     this.playerSprites = playerSprites
     this.canvas = canvas
     this.ctx = ctx
@@ -152,9 +153,7 @@ export default class animatePlayer {
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
 
-    const playerData = JSON.parse(atob(localStorage.getItem('token')))
-
-    this.drawText(playerData.hex,`${playerData.nick}${playerData.hex}`,this.coordinates['x']-18,this.coordinates['y']-40)
+    this.drawText(this.playerData.hex,`${this.playerData.nick}${this.playerData.hex}`,this.coordinates['x']-18,this.coordinates['y']-40)
 
     const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
