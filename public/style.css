@@ -20,12 +20,7 @@ body {
   background: black;
 }
 
-#gaming {
-  display: none;
-}
-
 .chat {
-  display: none;
   position: absolute;
   border-radius: 4px;
   top: 20px;
