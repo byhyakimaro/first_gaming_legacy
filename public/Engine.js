@@ -18,6 +18,10 @@ export default class Game {
     this.setSprites()
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
+
+    if (localStorage.getItem('token') === null) {
+      socket.emit('register', 'Hyakimaro')
+    }
   }
 
   setSprites() {
