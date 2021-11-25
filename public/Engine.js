@@ -1,4 +1,3 @@
-
 import animatePlayer from './Player.js'
 import animateMap from './Map.js'
 
@@ -30,8 +29,9 @@ export default class Game {
   }
 
   renderGame() {
-    this.player.animatePlayer()
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     new animateMap(this.canvas, this.ctx)
+    this.player.animatePlayer()
     setTimeout(()=>this.renderGame(),this.framesDelay)
   }
 }

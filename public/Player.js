@@ -1,4 +1,3 @@
-
 const pressed = {}
 
 document.onkeydown = ({ key }) => pressed[key] = true
@@ -96,9 +95,9 @@ export default class animatePlayer {
     this.ctx.restore()
   }
 
-  drawText(Text, textX, textY) {
+  drawText(Color, Text, textX, textY) {
     this.ctx.save()
-    this.ctx.fillStyle = '#000000'
+    this.ctx.fillStyle = Color
     this.ctx.font = "20px Courier"
     this.ctx.fillText(Text, textX, textY)
     this.ctx.restore()
@@ -108,8 +107,7 @@ export default class animatePlayer {
     let nowTime = Date.now()
     var fps = Math.round(1000 / (nowTime - this.timeCurrent))
     this.timeCurrent = nowTime
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.drawText(`x: ${Math.round(this.coordinates['x'])} y: ${Math.round(this.coordinates['y'])} fps: ${fps}`, 10, 30)
+    this.drawText('white', `x: ${Math.round(this.coordinates['x'])} y: ${Math.round(this.coordinates['y'])} fps: ${fps}`, 10, 30)
 
     if(!Object.keys(pressed).length) this.setAction('Idle')
 
@@ -153,11 +151,13 @@ export default class animatePlayer {
     this.playerSpritesIndex ++
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
-  
+
+    this.drawText('white',`Hyakimaro#0001`,this.coordinates['x']-30,this.coordinates['y']-50)
+
     const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
     this.drawPlayer(playerImg, this.coordinates['x'], this.coordinates['y'], this.coordinates['w'], this.coordinates['h'])
-    
+
     this.ctx.strokeStyle = 'red'
     this.ctx.strokeRect(this.coordinates['x'], this.coordinates['y'], this.coordinates['w'], this.coordinates['h'])
   }

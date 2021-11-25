@@ -4,8 +4,9 @@ export default class animateMap {
     this.canvas = canvas
     this.ctx = ctx
 
+    this.drawObj('black', 0, 0, canvas.width, canvas.height)
     for(const [ x, y, w, h ] of document.game.blocks) {
-      this.drawObj('#000000',x,y,w,h)
+      this.drawObj('white',x,y,w,h)
     }
   }
 
