@@ -21,6 +21,11 @@ export default class Game {
 
     if (localStorage.getItem('token') === null) {
       socket.emit('register', 'Hyakimaro')
+      socket.on('newRegister', (data) => {
+        localStorage.setItem('token', data)
+      })
+    } else {
+      socket.emit('login', localStorage.getItem('token'))
     }
   }
 

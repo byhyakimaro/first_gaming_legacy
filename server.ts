@@ -3,6 +3,7 @@ import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
 import * as fs from 'fs'
 import { DefaultEventsMap } from 'socket.io/dist/typed-events'
+import { createSocket } from 'dgram'
 
 const app = express()
 const httpServer = createServer(app)
@@ -32,10 +33,10 @@ function uuid() {
 function setRegister(socket, nick?) {
   if(!nick) nick = 'Guest'
   const token = uuid()
-  const nickColor = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
-  const user = { nick: nick+nickColor, token }
+  const hex = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
+  const user = { nick, hex, token, socket }
 
-  return sockets[socket] = user
+  return sockets[token] = user
 }
 
 io.on('connection',(socket)=>{
@@ -43,7 +44,14 @@ io.on('connection',(socket)=>{
   sockets.unshift(socket)
 
   socket.on('register', (nick)=>{
-    console.log(setRegister(socket, nick))
+    const data = setRegister(socket, nick)
+
+    socket.emit('newRegister', Buffer.from(JSON.stringify(data)).toString('base64'))
+  })
+
+  socket.on('login', (token)=>{
+    const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
+    console.log(tokenID)
   })
 
   socket.on('getSprites',async (params)=>{
