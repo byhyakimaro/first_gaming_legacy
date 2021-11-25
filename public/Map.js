@@ -1,11 +1,10 @@
 export default class animateMap {
-  blocksMap = document.game.blocks
 
   constructor(canvas, ctx) {
     this.canvas = canvas
     this.ctx = ctx
 
-    for(const [ x, y, w, h ] of this.blocksMap) {
+    for(const [ x, y, w, h ] of document.game.blocks) {
       this.drawObj('#000000',x,y,w,h)
     }
   }

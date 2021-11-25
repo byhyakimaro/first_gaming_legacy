@@ -14,7 +14,6 @@ export default class Game {
     [192,557,64,64],
     [256,557,64,64]
   ]
-  player
 
   constructor() {
     this.setSprites()
@@ -32,7 +31,7 @@ export default class Game {
 
   renderGame() {
     this.player.animatePlayer()
-    const animate = new animateMap(this.canvas, this.ctx)
+    new animateMap(this.canvas, this.ctx)
     setTimeout(()=>this.renderGame(),this.framesDelay)
   }
 }

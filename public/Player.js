@@ -10,7 +10,6 @@ export default class animatePlayer {
   velocity = { x: 0, y: 0 }
   coordinates = { x: 0, y: 0, w: 128, h: 128 }
 
-  blocksMap = document.game.blocks
   playerSkin = 3
   playerReverse = false
   collision = false
@@ -62,7 +61,7 @@ export default class animatePlayer {
     }
     nextPosition[coordinate] += velocity
 
-    for(let block of this.blocksMap) {
+    for(let block of document.game.blocks) {
       if (
         nextPosition.x + nextPosition.w > block[blockCoordinate['x']] &&
         nextPosition.x < block[blockCoordinate['x']] + block[blockCoordinate['w']] &&
