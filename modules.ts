@@ -19,10 +19,10 @@ export function uuid() {
   (Math.random()*7**20).toString(16))
 }
 
-export function setRegister(socket, nick?) {
+export function setRegister(nick?) {
   if(!nick) nick = 'Guest'
   const token = uuid()
   const hex = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
 
-  return { nick, hex, token, socket }
+  return { nick, hex, token }
 }
