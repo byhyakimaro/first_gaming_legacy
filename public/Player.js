@@ -1,7 +1,7 @@
 const pressed = {}
 
-document.onmousedown = ({ path }) => pressed[path[0].id] = true
-document.onmouseup = ({ path }) => delete pressed[path[0].id]
+document.ontouchstart = ({ path }) => pressed[path[0].id] = true
+document.ontouchend = ({ path }) => delete pressed[path[0].id]
 document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
