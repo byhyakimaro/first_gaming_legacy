@@ -10,11 +10,24 @@
   <title>Game</title>
 </head>
 <body>
-  <canvas id="gaming"></canvas>
+  <div class="nickName">
+    <input id="name" type="text">
+    <input type="button" value="Play" onclick="StartGame()">
+  </div>
+  <canvas id="gaming" display="none"></canvas>
   <div class="chat">
-    <div class="header">Chat:</div>
+    <div class="header" display="none">Chat:</div>
     <div class="messages"></div>
     <input type="text" placeholder="write something...">
   </div>
+  <script>
+    function StartGame() {
+      if(typeof document.querySelector('#name').value === 'string') {
+        document.querySelector('.nickName').style = "display:none;"
+        document.querySelector('#gaming').style = "display:block;"
+        document.querySelector('.chat').style = "display:block;"
+      }
+    }
+  </script>
 </body>
 </html>

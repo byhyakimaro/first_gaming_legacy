@@ -23,7 +23,7 @@ export default class Game {
 
   eventConnection() {
     if (localStorage.getItem('token') === null) {
-      socket.emit('register', 'Hyakimaro')
+      socket.emit('register', document.querySelector('#name').value)
       socket.on('newRegister', (data) => {
         localStorage.setItem('token', data)
       })
