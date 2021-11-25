@@ -49,7 +49,7 @@ io.on('connection',(socket)=>{
   socket.on('login', (token)=>{
     const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
     sockets[tokenID.token] = socket
-    console.log(tokenID)
+    console.log(sockets[tokenID.token])
   })
 
   socket.on('getSprites',async (params)=>{
