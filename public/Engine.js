@@ -72,15 +72,16 @@ export default class Game {
   }
 }
 
+socket.on('connect', () => {
+  console.log('> Connected to server')
+})
+
 if(localStorage.getItem('nick') === null) {
   document.querySelector('.nickName').style = "display:block;"
   document.querySelector('#gaming').style = "display:none;"
   document.querySelector('.chat').style = "display:none;"
 } else {
-  socket.on('connect', () => {
-    console.log('> Connected to server')
-    document.game = new Game()
-  })
+  document.game = new Game()
 }
 
 document.addEventListener('click', (event) => {
@@ -91,11 +92,7 @@ document.addEventListener('click', (event) => {
       document.querySelector('#gaming').style = "display:block;"
       document.querySelector('.chat').style = "display:block;"
       localStorage.setItem('nick', document.querySelector('#name').value)
-
-      socket.on('connect', () => {
-        console.log('> Connected to server')
-        document.game = new Game()
-      })
+      document.game = new Game()
     }
   }
 })
