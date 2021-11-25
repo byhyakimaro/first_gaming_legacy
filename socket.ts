@@ -20,9 +20,10 @@ io.on('connection',(socket)=>{
 
   socket.on('login', (token)=>{
     try { 
-      const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
-      if(connected[tokenID.token]) {
+      const data = JSON.parse(Buffer.from(token, 'base64').toString())
+      if(connected[data.token]) {
         socket.emit('loginSuccess')
+        socket.broadcast.emit('join', data)
       } else {
         socket.emit('failedLogin')
       }
