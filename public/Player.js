@@ -152,7 +152,9 @@ export default class animatePlayer {
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
 
-    this.drawText('#33ccff',`Hyakimaro#0001`,this.coordinates['x']-18,this.coordinates['y']-40)
+    const playerData = JSON.parse(atob(localStorage.getItem('token')))
+
+    this.drawText(playerData.hex,`${playerData.nick}${playerData.hex}`,this.coordinates['x']-18,this.coordinates['y']-40)
 
     const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
