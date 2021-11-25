@@ -2,3 +2,51 @@
   font-family: pixel;
   src: url(Minecraft.ttf);
 }
+
+:root {
+  --system: #ff1a1a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+body {
+  font-family: pixel;
+  display: flex;
+  justify-content: center;
+}
+
+.chat {
+  position: absolute;
+  border-radius: 4px;
+  top: 20px;
+  right: 20px;
+  border: 1px solid #ccc;
+  width: 15rem;
+  height: 20rem;
+}
+
+.header {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--system);
+  padding: 10px 20px 10px 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.messages {
+  height: 15rem;
+  background: transparent;
+}
+
+input {
+  font-family: pixel;
+  border-radius: inherit;
+  border-top: solid 1px rgba(204, 204, 204, 0.671);
+  color: white;
+  padding: 11px 25px;
+  background: transparent;
+}

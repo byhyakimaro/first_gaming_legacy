@@ -8,16 +8,13 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="Engine.js" defer type="module"></script>
   <title>Game</title>
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      margin: 0;
-      padding: 0;
-    }
-  </style>
 </head>
 <body>
   <canvas id="gaming"></canvas>
+  <div class="chat">
+    <div class="header">Chat:</div>
+    <div class="messages"></div>
+    <input type="text" placeholder="write something...">
+  </div>
 </body>
 </html>
