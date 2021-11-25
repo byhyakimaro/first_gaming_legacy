@@ -52,6 +52,12 @@ io.on('connection',(socket)=>{
     try { 
       const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
       sockets[tokenID.token] = socket
+      console.log(connected)
+      if(connected[tokenID.token]) {
+        socket.emit('loginSuccess')
+      } else {
+        socket.emit('failedLogin')
+      }
     } catch (e) {
       socket.emit('failedLogin')
     }

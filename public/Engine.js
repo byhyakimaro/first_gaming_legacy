@@ -17,7 +17,6 @@ export default class Game {
 
   constructor() {
     this.eventConnection()
-    this.setSprites()
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
   }
@@ -30,6 +29,9 @@ export default class Game {
       })
     } else {
       socket.emit('login', localStorage.getItem('token'))
+      socket.on('loginSuccess', () => {
+        this.setSprites()
+      })
       socket.on('failedLogin', () => {
         localStorage.removeItem('token')
         this.eventConnection()
