@@ -4,6 +4,7 @@ import animateMap from './Map.js'
 const socket = window.io()
 
 export default class Game {
+  timeCurrent = Date.now()
   canvas = document.querySelector('canvas')
   ctx = this.canvas.getContext('2d')
   framesDelay = 1000/60
@@ -36,6 +37,14 @@ export default class Game {
     }
   }
 
+  drawText(Color, Text, textX, textY) {
+    this.ctx.save()
+    this.ctx.fillStyle = Color
+    this.ctx.font = "20px Courier"
+    this.ctx.fillText(Text, textX, textY)
+    this.ctx.restore()
+  }
+
   setSprites() {
     socket.emit('getSprites')
     socket.on('callbackSprites',(sprites)=>{
@@ -47,6 +56,12 @@ export default class Game {
   renderGame() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     new animateMap(this.canvas, this.ctx)
+
+    let nowTime = Date.now()
+    var fps = Math.round(1000 / (nowTime - this.timeCurrent))
+    this.timeCurrent = nowTime
+    this.drawText('white', `x: ${Math.round(this.player.coordinates['x'])} y: ${Math.round(this.player.coordinates['y'])} fps: ${fps}`, 10, 30)
+
     this.player.animatePlayer()
     setTimeout(()=>this.renderGame(),this.framesDelay)
   }

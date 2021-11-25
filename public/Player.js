@@ -4,11 +4,9 @@ document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
 export default class animatePlayer {
-  timeCurrent = Date.now()
-
   velocity = { x: 0, y: 0 }
   coordinates = { x: 0, y: 0, w: 128, h: 128 }
-
+  
   playerSkin = 1
   playerReverse = false
   collision = false
@@ -105,11 +103,6 @@ export default class animatePlayer {
   }
 
   animatePlayer() {
-    let nowTime = Date.now()
-    var fps = Math.round(1000 / (nowTime - this.timeCurrent))
-    this.timeCurrent = nowTime
-    this.drawText('white', `x: ${Math.round(this.coordinates['x'])} y: ${Math.round(this.coordinates['y'])} fps: ${fps}`, 10, 30)
-
     if(!Object.keys(pressed).length) this.setAction('Idle')
 
     const floor = this.canvas.height - this.coordinates['h']
