@@ -34,14 +34,12 @@ function setRegister(socket, nick?) {
   if(!nick) nick = 'Guest'
   const token = uuid()
   const hex = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
-  const user = { nick, hex, token }
 
-  return sockets[token] = user
+  return { nick, hex, token }
 }
 
 io.on('connection',(socket)=>{
   console.log(socket.id)
-  sockets.unshift(socket)
 
   socket.on('register', (nick)=>{
     const data = setRegister(socket, nick)
@@ -50,6 +48,7 @@ io.on('connection',(socket)=>{
 
   socket.on('login', (token)=>{
     const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
+    sockets[tokenID.token] = socket
     console.log(tokenID)
   })
 
