@@ -94,14 +94,6 @@ export default class animatePlayer {
     this.ctx.restore()
   }
 
-  drawText(Color, Text, textX, textY) {
-    this.ctx.save()
-    this.ctx.fillStyle = Color
-    this.ctx.font = "20px Courier"
-    this.ctx.fillText(Text, textX, textY)
-    this.ctx.restore()
-  }
-
   animatePlayer() {
     if(!Object.keys(pressed).length) this.setAction('Idle')
 
@@ -145,8 +137,6 @@ export default class animatePlayer {
     this.playerSpritesIndex ++
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
-
-    this.drawText(this.playerData.hex,`${this.playerData.nick}${this.playerData.hex}`,this.coordinates['x']-18,this.coordinates['y']-40)
 
     const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
