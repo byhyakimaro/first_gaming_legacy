@@ -2,8 +2,6 @@ import * as express from 'express'
 import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
 import * as fs from 'fs'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
-import { createSocket } from 'dgram'
 
 const app = express()
 const httpServer = createServer(app)
@@ -36,14 +34,21 @@ function setRegister(socket, nick?) {
   const token = uuid()
   const hex = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
 
-  return { nick, hex, token }
+  return { nick, hex, token, socket }
 }
 
 io.on('connection',(socket)=>{
-  console.log(socket.id)
+  sockets.unshift(socket)
+  sockets.forEach(socket => {
+    console.log(sockets.length)
+  })
+
+  socket.on("disconnect", () => {
+    sockets.splice(sockets.indexOf(socket))
+  })
 
   socket.on('register', (nick)=>{
-    const data = setRegister(socket, nick)
+    const data = setRegister(socket.id, nick)
     connected[data.token] = data
     socket.emit('newRegister', Buffer.from(JSON.stringify(data)).toString('base64'))
   })
@@ -51,7 +56,6 @@ io.on('connection',(socket)=>{
   socket.on('login', (token)=>{
     try { 
       const tokenID = JSON.parse(Buffer.from(token, 'base64').toString())
-      sockets[tokenID.token] = socket
       if(connected[tokenID.token]) {
         socket.emit('loginSuccess')
       } else {
