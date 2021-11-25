@@ -9,7 +9,7 @@ export default class animatePlayer {
   velocity = { x: 0, y: 0 }
   coordinates = { x: 0, y: 0, w: 128, h: 128 }
 
-  playerSkin = 3
+  playerSkin = 1
   playerReverse = false
   collision = false
   playerSpritesIndex = 0
@@ -152,7 +152,7 @@ export default class animatePlayer {
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if(this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
 
-    this.drawText('white',`Hyakimaro#0001`,this.coordinates['x']-30,this.coordinates['y']-50)
+    this.drawText('#33ccff',`Hyakimaro#0001`,this.coordinates['x']-18,this.coordinates['y']-40)
 
     const playerImg = new Image()
     playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
