@@ -23,7 +23,6 @@ io.on('connection',(socket)=>{
       const data = JSON.parse(Buffer.from(token, 'base64').toString())
       if(connected[data.token]) {
         socket.emit('join', data)
-        socket.broadcast.emit('join', data)
       } else {
         socket.emit('failedLogin')
       }

@@ -24,18 +24,19 @@ export default class Game {
       socket.emit('register', localStorage.getItem('nick'))
       socket.on('newRegister', (data) => {
         localStorage.setItem('token', data)
+        socket.emit('login', data)
       })
     } else {
       socket.emit('login', localStorage.getItem('token'))
-      socket.on('join', (data) => {
-        this.data = data
-        this.setSprites()
-      })
       socket.on('failedLogin', () => {
         localStorage.removeItem('token')
         this.eventConnection()
       })
     }
+    socket.on('join', (data) => {
+      this.data = data
+      this.setSprites()
+    })
   }
 
   drawText(Color, Text, textX, textY) {
