@@ -7,7 +7,6 @@ export default class Player {
   velocity = { x: 0, y: 0 }
   coordinates = { x: 0, y: 0, w: 128, h: 128 }
   
-  playerSkin = 1
   playerReverse = false
   collision = false
   playerSpritesIndex = 0
@@ -17,7 +16,8 @@ export default class Player {
   friction = 0.85
   speed = 1
 
-  constructor(canvas, ctx, playerSprites) {
+  constructor(canvas, ctx, playerSprites, data) {
+    this.playerSkin = data.skin
     this.playerData = JSON.parse(atob(localStorage.getItem('token')))
     this.playerSprites = playerSprites
     this.canvas = canvas

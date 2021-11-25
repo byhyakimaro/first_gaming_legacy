@@ -51,7 +51,7 @@ export default class Game {
   setSprites() {
     socket.emit('getSprites')
     socket.on('callbackSprites',(sprites)=>{
-      this.player = new Player(this.canvas, this.ctx, sprites)
+      this.player = new Player(this.canvas, this.ctx, sprites, this.data)
       this.renderGame()
     })
   }
