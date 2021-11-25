@@ -29,7 +29,8 @@ export default class Game {
       })
     } else {
       socket.emit('login', localStorage.getItem('token'))
-      socket.on('loginSuccess', () => {
+      socket.on('join', (data) => {
+        this.data = data
         this.setSprites()
       })
       socket.on('failedLogin', () => {

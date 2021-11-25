@@ -24,5 +24,5 @@ export function setRegister(nick?) {
   const token = uuid()
   const hex = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
 
-  return { nick, hex, token }
+  return { skin: 1, nick, hex, token }
 }

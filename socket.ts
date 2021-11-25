@@ -14,7 +14,7 @@ io.on('connection',(socket)=>{
 
   socket.on('register', (nick)=>{
     const data = setRegister(nick)
-    connected[data.token] = { nick: data.nick, hex: data.hex, token: data.token, socket }
+    connected[data.token] = { skin: data.skin, nick: data.nick, hex: data.hex, token: data.token, socket }
     socket.emit('newRegister', Buffer.from(JSON.stringify(data)).toString('base64'))
   })
 
@@ -22,7 +22,7 @@ io.on('connection',(socket)=>{
     try { 
       const data = JSON.parse(Buffer.from(token, 'base64').toString())
       if(connected[data.token]) {
-        socket.emit('loginSuccess')
+        socket.emit('join', data)
         socket.broadcast.emit('join', data)
       } else {
         socket.emit('failedLogin')
