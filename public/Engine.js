@@ -62,7 +62,7 @@ export default class Game {
     this.timeCurrent = nowTime
     this.drawText('white', `x: ${Math.round(this.player.coordinates['x'])} y: ${Math.round(this.player.coordinates['y'])} fps: ${fps}`, 10, 30)
 
-    this.drawText(this.player.playerData.hex,`${this.player.playerData.nick}${this.player.playerData.hex}`,this.player.coordinates['x']-18,this.player.coordinates['y']-40)
+    this.drawText(this.player.playerData.hex,`${this.player.playerData.nick}${this.player.playerData.hex}`,this.player.coordinates['x']-20,this.player.coordinates['y']-40)
 
     this.player.animatePlayer()
     setTimeout(()=>this.renderGame(),this.framesDelay)
