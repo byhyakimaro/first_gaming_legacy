@@ -34,7 +34,7 @@ function setRegister(socket, nick?) {
   if(!nick) nick = 'Guest'
   const token = uuid()
   const hex = `#${Math.floor(Math.random()*16777215).toString(16)}`.toUpperCase()
-  const user = { nick, hex, token, socket }
+  const user = { nick, hex, token }
 
   return sockets[token] = user
 }
@@ -45,7 +45,6 @@ io.on('connection',(socket)=>{
 
   socket.on('register', (nick)=>{
     const data = setRegister(socket, nick)
-
     socket.emit('newRegister', Buffer.from(JSON.stringify(data)).toString('base64'))
   })
 
