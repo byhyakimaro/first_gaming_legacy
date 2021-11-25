@@ -15,7 +15,7 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "dev": "ts-node-dev server.ts"
+    "dev": "ts-node-dev socket.ts"
   },
   "keywords": [],
   "author": "",
