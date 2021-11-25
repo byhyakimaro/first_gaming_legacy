@@ -1,4 +1,4 @@
-export default class animateMap {
+export default class Map {
 
   constructor(canvas, ctx) {
     this.canvas = canvas

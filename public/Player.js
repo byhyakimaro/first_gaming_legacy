@@ -3,7 +3,7 @@ const pressed = {}
 document.onkeydown = ({ key }) => pressed[key] = true
 document.onkeyup = ({ key }) => delete pressed[key]
 
-export default class animatePlayer {
+export default class Player {
   velocity = { x: 0, y: 0 }
   coordinates = { x: 0, y: 0, w: 128, h: 128 }
   

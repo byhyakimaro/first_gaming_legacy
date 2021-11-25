@@ -1,5 +1,5 @@
-import animatePlayer from './Player.js'
-import animateMap from './Map.js'
+import Player from './Player.js'
+import Map from './Map.js'
 
 const socket = window.io()
 
@@ -50,14 +50,14 @@ export default class Game {
   setSprites() {
     socket.emit('getSprites')
     socket.on('callbackSprites',(sprites)=>{
-      this.player = new animatePlayer(this.canvas, this.ctx, sprites)
+      this.player = new Player(this.canvas, this.ctx, sprites)
       this.renderGame()
     })
   }
 
   renderGame() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    new animateMap(this.canvas, this.ctx)
+    new Map(this.canvas, this.ctx)
 
     let nowTime = Date.now()
     var fps = Math.round(1000 / (nowTime - this.timeCurrent))
