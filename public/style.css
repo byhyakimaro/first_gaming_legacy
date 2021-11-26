@@ -59,7 +59,7 @@ input {
 }
 
 .controllers-right {
-  right: 50px;
+  right: 5rem;
   bottom: 0;
 }
 
@@ -71,4 +71,8 @@ input {
   display: none;
   justify-items: center;
   align-items: center;
+}
+
+img#left,img#top,img#right,img#down {
+  padding: 0 10px;
 }
