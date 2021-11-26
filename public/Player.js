@@ -110,6 +110,13 @@ export default class Player {
       }
     }
 
+    const wallRight = this.canvas.width - this.coordinates['w']
+    if(this.coordinates['x'] > wallRight) {
+      this.coordinates['x'] = wallRight
+    } else if(this.coordinates['x'] <= 0) {
+      this.coordinates['x'] = 0
+    } 
+
     if(pressed.w && this.collision || pressed.top && this.collision) {
       this.velocity['y'] =- this.jumpForce
       this.setAction('Jump Loop')
