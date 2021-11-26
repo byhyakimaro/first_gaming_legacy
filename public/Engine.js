@@ -84,7 +84,8 @@ if(localStorage.getItem('nick') === null) {
 }
 
 if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-  document.querySelector('.controllers').style = "display: grid;"
+  document.querySelector('.controllers-left').style = "display: flex;"
+  document.querySelector('.controllers-right').style = "display: flex;"
 }
 
 document.addEventListener('click', (event) => {
