@@ -5,6 +5,7 @@
 
 :root {
   --system: #bb033a;
+  --chat: #6b12d9
 }
 
 * {
@@ -39,7 +40,7 @@ b{
 .header {
   font-size: 20px;
   font-weight: 500;
-  color: var(--system);
+  color: var(--chat);
   padding: 10px 20px 10px 10px;
   border-bottom: 1px solid #ccc;
 }
