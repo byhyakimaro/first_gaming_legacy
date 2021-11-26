@@ -59,20 +59,19 @@ input {
 }
 
 .controllers-right {
-  right: 5rem;
+  right: 2rem;
   bottom: 0;
 }
 
 .controllers-left,.controllers-right {
   padding: 0 10px;
   position: absolute;
-  width: 100px;
-  height: 100px;
   display: none;
   justify-items: center;
   align-items: center;
 }
 
-img#left,img#top,img#right,img#down {
-  padding: 0 10px;
+#top, #left, #right, #down {
+  width: 50px;
+  padding: 10px 10px;
 }
