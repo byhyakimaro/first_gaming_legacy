@@ -34,6 +34,10 @@ export default class Game {
       })
     }
     socket.on('join', (data) => {
+      const msgSystem = document.createElement('div')
+      msgSystem.setAttribute('id','message')
+      msgSystem.innerHTML = `<b>Sistema: </b> <b style="color:${data.hex};">${data.nick}${data.hex}</b> entrou no jogo`
+      document.querySelector('.messages').appendChild(msgSystem)
       this.data = data
       this.setSprites()
     })
@@ -89,7 +93,6 @@ if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigat
 }
 
 document.addEventListener('click', (event) => {
-
   if(event.path[0].value=== 'Play') {
     if(typeof document.querySelector('#name').value === 'string') {
       document.querySelector('.nickName').style = "display:none;"

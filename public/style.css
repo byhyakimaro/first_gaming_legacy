@@ -8,6 +8,7 @@
 }
 
 * {
+  color: white;
   user-select: none;
   font-family: pixel;
   margin: 0;
@@ -19,6 +20,10 @@ body {
   display: flex;
   justify-content: center;
   background: black;
+}
+
+b{
+  color:var(--system);
 }
 
 .chat {
@@ -44,11 +49,14 @@ body {
   background: transparent;
 }
 
+#message {
+  padding: 10px;
+}
+
 input {
   font-family: pixel;
   border-radius: inherit;
   border-top: solid 1px rgba(204, 204, 204, 0.671);
-  color: white;
   padding: 11px 25px;
   background: transparent;
 }
