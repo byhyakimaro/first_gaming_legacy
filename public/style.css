@@ -59,7 +59,7 @@ input {
   bottom: 0;
   width: 300px;
   height: 300px;
-  display: grid;
+  display: none;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   justify-items: center;

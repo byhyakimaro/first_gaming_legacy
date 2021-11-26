@@ -83,6 +83,10 @@ if(localStorage.getItem('nick') === null) {
   document.game = new Game()
 }
 
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  document.querySelector('.controllers').style = "display: grid;"
+}
+
 document.addEventListener('click', (event) => {
 
   if(event.path[0].value=== 'Play') {
