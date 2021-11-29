@@ -1,5 +1,6 @@
 import Player from './Player.js'
 import Map from './Map.js'
+import './Chat.js'
 
 const socket = window.io()
 
@@ -101,19 +102,6 @@ document.addEventListener('click', (event) => {
       document.querySelector('.chat').style = 'display:block;'
       localStorage.setItem('nick', document.querySelector('#name').value)
       document.game = new Game()
-    }
-  }
-})
-
-document.addEventListener('keypress', ({ key }) => {
-  const message = document.querySelector('#text-msg')
-  if (key === 'Enter') {
-    if (message.value) {
-      const msgs = document.createElement('div')
-      msgs.setAttribute('id', 'message')
-      msgs.innerHTML = `<b style="color:${document.game.data.hex}">${document.game.data.nick}: </b>${message.value}`
-      document.querySelector('.messages').appendChild(msgs)
-      message.value = ''
     }
   }
 })
