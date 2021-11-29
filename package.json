@@ -1,6 +1,9 @@
 {
   "name": "first_gaming",
   "version": "1.0.0",
+  "quokka": {
+    "plugins": ["jsdom-quokka-plugin"]
+  },
   "description": "",
   "main": "index.js",
   "devDependencies": {
@@ -24,6 +27,7 @@
   "dependencies": {
     "canvas": "^2.8.0",
     "express": "^4.17.1",
+    "jsdom": "^18.1.1",
     "socket.io": "^4.3.2",
     "socket.io-client": "^4.3.2"
   }
