@@ -12,6 +12,10 @@ io.on('connection', (socket) => {
     console.log(`${socket.id} disconnected`)
   })
 
+  socket.on('refreshPlayer', (data) => {
+    socket.broadcast.emit('drawPlayer', data)
+  })
+
   socket.on('register', (nick) => {
     const data = setRegister(nick)
     connected[data.token] = { skin: data.skin, nick: data.nick, hex: data.hex, token: data.token, socket }

@@ -1,5 +1,7 @@
 const pressed = {}
 
+const socket = window.io()
+
 document.ontouchstart = ({ path }) => { pressed[path[0].id] = true }
 document.ontouchend = ({ path }) => { delete pressed[path[0].id] }
 document.onkeydown = ({ key }) => { pressed[key] = true }
@@ -25,6 +27,9 @@ export default class Player {
     this.canvas = canvas
     this.ctx = ctx
     this.animatePlayer()
+    socket.on('drawPlayer', (data) => {
+      this.drawPlayer(data.img, data.x, data.y, data.w, data.h, data.reverse)
+    })
   }
 
   setAction (actionSet) {
@@ -84,9 +89,11 @@ export default class Player {
     }
   }
 
-  drawPlayer (playerImg, playerX, playerY, playerWidth, playerHeight) {
+  drawPlayer (playerImgSrc, playerX, playerY, playerWidth, playerHeight, playerReverse) {
     this.ctx.save()
-    if (this.playerReverse) {
+    const playerImg = new Image()
+    playerImg.src = playerImgSrc
+    if (playerReverse) {
       this.ctx.scale(-1, 1)
       this.ctx.drawImage(playerImg, -playerX - 100, playerY, playerWidth, playerHeight)
     } else {
@@ -146,9 +153,9 @@ export default class Player {
     const spritesLength = this.playerSprites.find(({ action }) => action === this.playerAction)
     if (this.playerSpritesIndex >= spritesLength.sprites) this.playerSpritesIndex = 0
 
-    const playerImg = new Image()
-    playerImg.src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
-    this.drawPlayer(playerImg, this.coordinates.x, this.coordinates.y, this.coordinates.w, this.coordinates.h)
+    const src = `images/SpritesPlayer/Reaper_Man_${this.playerSkin}/${this.playerAction}/0_Reaper_Man_Walking_${this.playerSpritesIndex}.png`
+    this.drawPlayer(src, this.coordinates.x, this.coordinates.y, this.coordinates.w, this.coordinates.h, this.playerReverse)
+    socket.emit('refreshPlayer', { img: src, x: this.coordinates.x, y: this.coordinates.y, w: this.coordinates.w, h: this.coordinates.h, reverse: this.playerReverse })
 
     this.ctx.strokeStyle = 'red'
     this.ctx.strokeRect(this.coordinates.x, this.coordinates.y, this.coordinates.w, this.coordinates.h)
