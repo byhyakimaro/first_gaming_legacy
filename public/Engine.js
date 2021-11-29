@@ -1,6 +1,7 @@
 import Player from './Player.js'
 import Map from './Map.js'
 import './Chat.js'
+import './Gui.js'
 
 const socket = window.io()
 
@@ -87,11 +88,6 @@ if (localStorage.getItem('nick') === null) {
   document.querySelector('.chat').style = 'display:none;'
 } else {
   document.game = new Game()
-}
-
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-  document.querySelector('.controllers-left').style = 'display: flex;'
-  document.querySelector('.controllers-right').style = 'display: flex;'
 }
 
 document.addEventListener('click', (event) => {
