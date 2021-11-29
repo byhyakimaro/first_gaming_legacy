@@ -7,19 +7,19 @@ export default class Game {
   timeCurrent = Date.now()
   canvas = document.querySelector('canvas')
   ctx = this.canvas.getContext('2d')
-  framesDelay = 1000/60
+  framesDelay = 1000 / 60
   blocks = [
-    [128,557,540,64],
-    [740,457,540,64]
+    [128, 557, 540, 64],
+    [740, 457, 540, 64]
   ]
 
-  constructor() {
+  constructor () {
     this.eventConnection()
     this.canvas.width = window.innerWidth
     this.canvas.height = window.innerHeight
   }
 
-  eventConnection() {
+  eventConnection () {
     if (localStorage.getItem('token') === null) {
       socket.emit('register', localStorage.getItem('nick'))
       socket.on('newRegister', (data) => {
@@ -35,7 +35,7 @@ export default class Game {
     }
     socket.on('join', (data) => {
       const msgSystem = document.createElement('div')
-      msgSystem.setAttribute('id','message')
+      msgSystem.setAttribute('id', 'message')
       msgSystem.innerHTML = `<b>Sistema: </b> <b style="color:${data.hex};">${data.nick}${data.hex}</b> entrou no jogo`
       document.querySelector('.messages').appendChild(msgSystem)
       this.data = data
@@ -43,35 +43,36 @@ export default class Game {
     })
   }
 
-  drawText(Color, Text, textX, textY) {
+  drawText (Color, Text, textX, textY) {
     this.ctx.save()
     this.ctx.fillStyle = Color
-    this.ctx.font = "20px pixel"
+    this.ctx.font = '20px pixel'
     this.ctx.fillText(Text, textX, textY)
     this.ctx.restore()
   }
 
-  setSprites() {
+  setSprites () {
     socket.emit('getSprites')
-    socket.on('callbackSprites',(sprites)=>{
+    socket.on('callbackSprites', (sprites) => {
       this.player = new Player(this.canvas, this.ctx, sprites, this.data)
       this.renderGame()
     })
   }
 
-  renderGame() {
+  renderGame () {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    // eslint-disable-next-line no-new
     new Map(this.canvas, this.ctx)
 
-    let nowTime = Date.now()
-    var fps = Math.round(1000 / (nowTime - this.timeCurrent))
+    const nowTime = Date.now()
+    const fps = Math.round(1000 / (nowTime - this.timeCurrent))
     this.timeCurrent = nowTime
-    this.drawText('white', `x: ${Math.round(this.player.coordinates['x'])} y: ${Math.round(this.player.coordinates['y'])} fps: ${fps}`, 10, 30)
+    this.drawText('white', `x: ${Math.round(this.player.coordinates.x)} y: ${Math.round(this.player.coordinates.y)} fps: ${fps}`, 10, 30)
 
-    this.drawText(this.player.playerData.hex,`${this.player.playerData.nick}${this.player.playerData.hex}`,this.player.coordinates['x']-20,this.player.coordinates['y']-40)
+    this.drawText(this.player.playerData.hex, `${this.player.playerData.nick}${this.player.playerData.hex}`, this.player.coordinates.x - 20, this.player.coordinates.y - 40)
 
     this.player.animatePlayer()
-    setTimeout(()=>this.renderGame(),this.framesDelay)
+    setTimeout(() => this.renderGame(), this.framesDelay)
   }
 }
 
@@ -79,25 +80,25 @@ socket.on('connect', () => {
   console.log('> Connected to server')
 })
 
-if(localStorage.getItem('nick') === null) {
-  document.querySelector('.nickName').style = "display:block;"
-  document.querySelector('#gaming').style = "display:none;"
-  document.querySelector('.chat').style = "display:none;"
+if (localStorage.getItem('nick') === null) {
+  document.querySelector('.nickName').style = 'display:block;'
+  document.querySelector('#gaming').style = 'display:none;'
+  document.querySelector('.chat').style = 'display:none;'
 } else {
   document.game = new Game()
 }
 
-if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-  document.querySelector('.controllers-left').style = "display: flex;"
-  document.querySelector('.controllers-right').style = "display: flex;"
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  document.querySelector('.controllers-left').style = 'display: flex;'
+  document.querySelector('.controllers-right').style = 'display: flex;'
 }
 
 document.addEventListener('click', (event) => {
-  if(event.path[0].value=== 'Play') {
-    if(typeof document.querySelector('#name').value === 'string') {
-      document.querySelector('.nickName').style = "display:none;"
-      document.querySelector('#gaming').style = "display:block;"
-      document.querySelector('.chat').style = "display:block;"
+  if (event.path[0].value === 'Play') {
+    if (typeof document.querySelector('#name').value === 'string') {
+      document.querySelector('.nickName').style = 'display:none;'
+      document.querySelector('#gaming').style = 'display:block;'
+      document.querySelector('.chat').style = 'display:block;'
       localStorage.setItem('nick', document.querySelector('#name').value)
       document.game = new Game()
     }
@@ -106,10 +107,10 @@ document.addEventListener('click', (event) => {
 
 document.addEventListener('keypress', ({ key }) => {
   const message = document.querySelector('#text-msg')
-  if(key==='Enter') {
-    if(message.value) {
+  if (key === 'Enter') {
+    if (message.value) {
       const msgs = document.createElement('div')
-      msgs.setAttribute('id','message')
+      msgs.setAttribute('id', 'message')
       msgs.innerHTML = `<b style="color:${document.game.data.hex}">${document.game.data.nick}: </b>${message.value}`
       document.querySelector('.messages').appendChild(msgs)
       message.value = ''
